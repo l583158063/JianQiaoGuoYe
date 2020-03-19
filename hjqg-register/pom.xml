@@ -7,6 +7,7 @@
         <groupId>com.jianqiaoguoye</groupId>
         <artifactId>hjqg-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../hjqg-parent/pom.xml</relativePath>
     </parent>
     <groupId>org.hjqg</groupId>
     <artifactId>hjqg-register</artifactId>
