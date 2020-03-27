@@ -26,8 +26,9 @@ spring:
           l2-spec: expiration=300
   servlet:
     multipart:
-      max-file-size: 30MB
-      max-request-size: 30MB
+      enable: true
+      max-file-size: 1MB
+      max-request-size: 1MB
   redis:
     host: ${SPRING_REDIS_HOST:redis.hzero.org}
     port: ${SPRING_REDIS_PORT:6379}
