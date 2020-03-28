@@ -131,7 +131,7 @@ hzero:
       # 允许使用的登录名，默认有 用户名、邮箱、手机号
       support-fields: ${HZERO_OAUTH_LOGIN_SUPPORT_FIELDS:username,email,phone}
       # 前端默认模板
-      default-template: ${HZERO_OAUTH_LOGIN_DEFAULT_TEMPLATE:slide}
+      default-template: ${HZERO_OAUTH_LOGIN_DEFAULT_TEMPLATE:main}
       # 默认登录成功跳转地址
       success-url: ${HZERO_OAUTH_LOGIN_SUCCESS_URL:http://dev.hzero.org/workplace}
     social:
@@ -146,7 +146,7 @@ hzero:
       provider:
         # 用于cas
         key: ${HZERO_OAUTH_SSO_PROVIDER_KEY:hzero}
-      service: 
+      service:
         baseUrl: ${hzero.oauth.login.gateway-domain}
       saml:
         entity_id: hzero:org:sp
@@ -159,7 +159,7 @@ hzero:
       db-owner: ${HZERO_DB_OWNER:}
 
 logging:
-  level: 
+  level:
     org.hzero: ${LOG_LEVEL:info}
     io.choerodon: ${LOG_LEVEL:info}
     org.springframework.security: ${LOG_LEVEL:info}
