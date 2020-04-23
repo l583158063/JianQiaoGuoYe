@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jianqiaoguoye.infra.mapper.ConsignmentMapper">
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.Consignment">
+        <result column="consignment_id" property="consignmentId" jdbcType="DECIMAL"/>
+        <result column="order_id" property="orderId" jdbcType="DECIMAL"/>
+        <result column="consignment_code" property="consignmentCode" jdbcType="VARCHAR"/>
+        <result column="consignment_type" property="consignmentType" jdbcType="VARCHAR"/>
+        <result column="delivery_type_code" property="deliveryTypeCode" jdbcType="VARCHAR"/>
+        <result column="consignment_status_code" property="consignmentStatusCode" jdbcType="VARCHAR"/>
+        <result column="approved_date" property="approvedDate" jdbcType="DATE"/>
+        <result column="approver_id" property="approverId" jdbcType="DECIMAL"/>
+        <result column="is_manual_approved" property="isManualApproved" jdbcType="DECIMAL"/>
+        <result column="consigner" property="consigner" jdbcType="VARCHAR"/>
+        <result column="delivery_date" property="deliveryDate" jdbcType="DATE"/>
+        <result column="delivery_number" property="deliveryNumber" jdbcType="VARCHAR"/>
+        <result column="carrier_id" property="carrierId" jdbcType="DECIMAL"/>
+        <result column="delivery_cost" property="deliveryCost" jdbcType="DECIMAL"/>
+        <result column="abnormal_reason_code" property="abnormalReasonCode" jdbcType="VARCHAR"/>
+        <result column="abnormal_type_code" property="abnormalTypeCode" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="dispatch_status_code" property="dispatchStatusCode" jdbcType="VARCHAR"/>
+        <result column="is_distributed" property="isDistributed" jdbcType="DECIMAL"/>
+        <result column="distributed_status_code" property="distributedStatusCode" jdbcType="VARCHAR"/>
+        <result column="refund_order_id" property="refundOrderId" jdbcType="DECIMAL"/>
+        <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
+        <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+        <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="is_sms_send" property="isSmsSend" jdbcType="DECIMAL"/>
+    </resultMap>
+</mapper>

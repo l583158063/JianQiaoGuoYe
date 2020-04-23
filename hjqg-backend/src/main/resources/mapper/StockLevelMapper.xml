@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jianqiaoguoye.infra.mapper.StockLevelMapper">
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.StockLevel">
+        <result column="stock_level_id" property="stockLevelId" jdbcType="DECIMAL"/>
+        <result column="product_sku_id" property="productSkuId" jdbcType="DECIMAL"/>
+        <result column="initial_quantity" property="initialQuantity" jdbcType="DECIMAL"/>
+        <result column="in_stock" property="inStock" jdbcType="DECIMAL"/>
+        <result column="reserved_quantity" property="reservedQuantity" jdbcType="DECIMAL"/>
+        <result column="last_modified_time" property="lastModifiedTime" jdbcType="DATE"/>
+        <result column="last_full_timestamp" property="lastFullTimestamp" jdbcType="DECIMAL"/>
+        <result column="shelf_life_to" property="shelfLifeTo" jdbcType="DATE"/>
+        <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
+        <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+        <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+    </resultMap>
+</mapper>

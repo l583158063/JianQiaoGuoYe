@@ -8,7 +8,6 @@
         <artifactId>hjqg-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
-    <groupId>com.jianqiaoguoye</groupId>
     <artifactId>hjqg-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>hjqg-backend</name>

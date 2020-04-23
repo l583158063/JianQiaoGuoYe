@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jianqiaoguoye.infra.mapper.OrderProcessLogMapper">
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.OrderProcessLog">
+        <result column="order_process_log_id" property="orderProcessLogId" jdbcType="DECIMAL"/>
+        <result column="order_id" property="orderId" jdbcType="DECIMAL"/>
+        <result column="consignment_id" property="consignmentId" jdbcType="DECIMAL"/>
+        <result column="process_message" property="processMessage" jdbcType="VARCHAR"/>
+        <result column="previous_status" property="previousStatus" jdbcType="VARCHAR"/>
+        <result column="current_status" property="currentStatus" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
+        <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+        <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="handler_id" property="handlerId" jdbcType="DECIMAL"/>
+    </resultMap>
+</mapper>

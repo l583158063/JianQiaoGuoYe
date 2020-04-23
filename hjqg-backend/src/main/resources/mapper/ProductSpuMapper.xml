@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jianqiaoguoye.infra.mapper.ProductSpuMapper">
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.ProductSpu">
+        <result column="product_spu_id" property="productSpuId" jdbcType="DECIMAL"/>
+        <result column="product_spu_code" property="productSpuCode" jdbcType="VARCHAR"/>
+        <result column="category_id" property="categoryId" jdbcType="DECIMAL"/>
+        <result column="attribute_spu_id" property="attributeSpuId" jdbcType="DECIMAL"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="post_status_code" property="postStatusCode" jdbcType="VARCHAR"/>
+        <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
+        <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+        <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="tax_rate" property="taxRate" jdbcType="DECIMAL"/>
+        <result column="order_seq" property="orderSeq" jdbcType="DECIMAL"/>
+        <result column="is_enable_expressed" property="isEnableExpressed" jdbcType="DECIMAL"/>
+        <result column="is_enable_picked_up" property="isEnablePickedUp" jdbcType="DECIMAL"/>
+        <result column="shelf_status" property="shelfStatus" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="sales_volume" property="salesVolume" jdbcType="DECIMAL"/>
+        <result column="recommendation" property="recommendation" jdbcType="VARCHAR"/>
+        <result column="key_words" property="keyWords" jdbcType="VARCHAR"/>
+        <result column="is_stop_selling" property="isStopSelling" jdbcType="DECIMAL"/>
+        <result column="customer_grade" property="customerGrade" jdbcType="DECIMAL"/>
+    </resultMap>
+</mapper>

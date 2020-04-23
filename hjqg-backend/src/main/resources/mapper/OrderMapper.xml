@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jianqiaoguoye.infra.mapper.OrderMapper">
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.Order">
+        <result column="order_id" property="orderId" jdbcType="DECIMAL"/>
+        <result column="order_code" property="orderCode" jdbcType="VARCHAR"/>
+        <result column="order_type_code" property="orderTypeCode" jdbcType="VARCHAR"/>
+        <result column="order_status_code" property="orderStatusCode" jdbcType="VARCHAR"/>
+        <result column="order_from_code" property="orderFromCode" jdbcType="VARCHAR"/>
+        <result column="buyer_remarks" property="buyerRemarks" jdbcType="VARCHAR"/>
+        <result column="seller_remarks" property="sellerRemarks" jdbcType="VARCHAR"/>
+        <result column="paid_time" property="paidTime" jdbcType="DATE"/>
+        <result column="is_paid" property="isPaid" jdbcType="DECIMAL"/>
+        <result column="paid_amount" property="paidAmount" jdbcType="DECIMAL"/>
+        <result column="discount_amount" property="discountAmount" jdbcType="DECIMAL"/>
+        <result column="delivery_cost" property="deliveryCost" jdbcType="DECIMAL"/>
+        <result column="address_id" property="addressId" jdbcType="DECIMAL"/>
+        <result column="delivery_type_code" property="deliveryTypeCode" jdbcType="VARCHAR"/>
+        <result column="total_amount" property="totalAmount" jdbcType="DECIMAL"/>
+        <result column="is_manual_approved" property="isManualApproved" jdbcType="DECIMAL"/>
+        <result column="process_message" property="processMessage" jdbcType="VARCHAR"/>
+        <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
+        <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+        <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="return_order_id" property="returnOrderId" jdbcType="DECIMAL"/>
+        <result column="is_commented" property="isCommented" jdbcType="DECIMAL"/>
+        <result column="invoice_status_code" property="invoiceStatusCode" jdbcType="VARCHAR"/>
+        <result column="is_point_accumulate" property="isPointAccumulate" jdbcType="DECIMAL"/>
+        <result column="order_temp_code" property="orderTempCode" jdbcType="VARCHAR"/>
+        <result column="is_manual_recording" property="isManualRecording" jdbcType="DECIMAL"/>
+        <result column="customer_id" property="customerId" jdbcType="DECIMAL"/>
+        <result column="is_major_customer" property="isMajorCustomer" jdbcType="DECIMAL"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="DECIMAL"/>
+        <result column="delivery_time" property="deliveryTime" jdbcType="DATE"/>
+        <result column="delivery_number" property="deliveryNumber" jdbcType="VARCHAR"/>
+        <result column="is_delivery_dispatch" property="isDeliveryDispatch" jdbcType="DECIMAL"/>
+    </resultMap>
+</mapper>
