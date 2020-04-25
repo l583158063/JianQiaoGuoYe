@@ -1,18 +1,20 @@
 package com.jianqiaoguoye.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import io.choerodon.core.swagger.ChoerodonRouteData;
 import io.choerodon.swagger.annotation.ChoerodonExtraData;
 import io.choerodon.swagger.swagger.extra.ExtraData;
 import io.choerodon.swagger.swagger.extra.ExtraDataManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * @author luwx
+ * <p>
  * 服务路由配置
  */
 @ChoerodonExtraData
 public class RouteExtraDataManager implements ExtraDataManager {
-	
-	@Autowired
+
+    @Autowired
     private org.springframework.core.env.Environment environment;
 
     @Override
