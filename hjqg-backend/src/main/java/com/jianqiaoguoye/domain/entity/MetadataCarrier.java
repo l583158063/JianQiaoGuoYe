@@ -44,16 +44,16 @@ public class MetadataCarrier extends AuditDomain {
     @Id
     @GeneratedValue
     private Long carrierId;
-    @ApiModelProperty(value = "编码", required = true)
+    @ApiModelProperty(value = "编码")
     @NotBlank
     private String carrierCode;
-    @ApiModelProperty(value = "名称", required = true)
+    @ApiModelProperty(value = "名称")
     @NotBlank
     private String carrierName;
-    @ApiModelProperty(value = "类型", required = true)
+    @ApiModelProperty(value = "类型")
     @NotBlank
     private String carrierTypeCode;
-    @ApiModelProperty(value = "是否可用", required = true)
+    @ApiModelProperty(value = "是否可用")
     @NotNull
     private Integer isActive;
     @ApiModelProperty(value = "排序号")

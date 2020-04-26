@@ -61,10 +61,10 @@ public class Consignment extends AuditDomain {
     @Id
     @GeneratedValue
     private Long consignmentId;
-    @ApiModelProperty(value = "关联订单,关联order.order_id", required = true)
+    @ApiModelProperty(value = "关联订单,关联order.order_id")
     @NotNull
     private Long orderId;
-    @ApiModelProperty(value = "配货单号", required = true)
+    @ApiModelProperty(value = "配货单号")
     @NotBlank
     private String consignmentCode;
     @ApiModelProperty(value = "配货单类型,值集O2OF.CONSIGNMENT_TYPE")
@@ -77,7 +77,7 @@ public class Consignment extends AuditDomain {
     private Date approvedDate;
     @ApiModelProperty(value = "审核人ID")
     private Long approverId;
-    @ApiModelProperty(value = "是否手工审核过", required = true)
+    @ApiModelProperty(value = "是否手工审核过")
     @NotNull
     private Integer isManualApproved;
     @ApiModelProperty(value = "配货人")
@@ -98,14 +98,14 @@ public class Consignment extends AuditDomain {
     private String remarks;
     @ApiModelProperty(value = "发货回传状态，值集o2of.PROCESSING_STATUS")
     private String dispatchStatusCode;
-    @ApiModelProperty(value = "是否派发配货人员", required = true)
+    @ApiModelProperty(value = "是否派发配货人员")
     @NotNull
     private Integer isDistributed;
     @ApiModelProperty(value = "下发状态，值集o2of.PROCESSING_STATUS")
     private String distributedStatusCode;
     @ApiModelProperty(value = "退款单，关联refund_order.refund_order_id")
     private Long refundOrderId;
-    @ApiModelProperty(value = "短信是否发送", required = true)
+    @ApiModelProperty(value = "短信是否发送")
     @NotNull
     private Integer isSmsSend;
 

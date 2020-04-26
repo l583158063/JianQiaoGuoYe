@@ -43,13 +43,13 @@ public class ProductCategory extends AuditDomain {
     @Id
     @GeneratedValue
     private Long categoryId;
-    @ApiModelProperty(value = "类型编码", required = true)
+    @ApiModelProperty(value = "类型编码")
     @NotBlank
     private String categoryCode;
-    @ApiModelProperty(value = "名称", required = true)
+    @ApiModelProperty(value = "名称")
     @NotBlank
     private String categoryName;
-    @ApiModelProperty(value = "启用标识", required = true)
+    @ApiModelProperty(value = "启用标识")
     @NotNull
     private Integer isActive;
     @ApiModelProperty(value = "排序")

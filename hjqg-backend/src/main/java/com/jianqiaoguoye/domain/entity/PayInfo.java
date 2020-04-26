@@ -50,7 +50,7 @@ public class PayInfo extends AuditDomain {
     @Id
     @GeneratedValue
     private Long payId;
-    @ApiModelProperty(value = "订单ID，关联order.order_id", required = true)
+    @ApiModelProperty(value = "订单ID，关联order.order_id")
     @NotNull
     private Long orderId;
     @ApiModelProperty(value = "支付时间")

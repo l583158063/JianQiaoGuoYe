@@ -45,24 +45,24 @@ public class StockLevel extends AuditDomain {
     @Id
     @GeneratedValue
     private Long stockLevelId;
-    @ApiModelProperty(value = "商品skuId", required = true)
+    @ApiModelProperty(value = "商品skuId")
     @NotNull
     private Long productSkuId;
-    @ApiModelProperty(value = "初始量", required = true)
+    @ApiModelProperty(value = "初始量")
     @NotNull
     private Long initialQuantity;
-    @ApiModelProperty(value = "现有量", required = true)
+    @ApiModelProperty(value = "现有量")
     @NotNull
     private Long inStock;
-    @ApiModelProperty(value = "保留量", required = true)
+    @ApiModelProperty(value = "保留量")
     @NotNull
     private Long reservedQuantity;
-    @ApiModelProperty(value = "上次修改时间", required = true)
+    @ApiModelProperty(value = "上次修改时间")
     @NotNull
     private Date lastModifiedTime;
     @ApiModelProperty(value = "全量时间戳")
     private Long lastFullTimestamp;
-    @ApiModelProperty(value = "保质期截止日期", required = true)
+    @ApiModelProperty(value = "保质期截止日期")
     @NotNull
     private Date shelfLifeTo;
 

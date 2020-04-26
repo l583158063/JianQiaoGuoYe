@@ -57,7 +57,7 @@ public class ProductSpu extends AuditDomain {
     private Long productSpuId;
     @ApiModelProperty(value = "商品编码")
     private String productSpuCode;
-    @ApiModelProperty(value = "商品类型", required = true)
+    @ApiModelProperty(value = "商品类型")
     @NotNull
     private Long categoryId;
     @ApiModelProperty(value = "spu属性")
@@ -70,13 +70,13 @@ public class ProductSpu extends AuditDomain {
     private BigDecimal taxRate;
     @ApiModelProperty(value = "排序权重")
     private Long orderSeq;
-    @ApiModelProperty(value = "是否支持快递配送", required = true)
+    @ApiModelProperty(value = "是否支持快递配送")
     @NotNull
     private Integer isEnableExpressed;
-    @ApiModelProperty(value = "是否支持自提", required = true)
+    @ApiModelProperty(value = "是否支持自提")
     @NotNull
     private Integer isEnablePickedUp;
-    @ApiModelProperty(value = "上下架状态，值集 O2PCM.SHELF_STATUS", required = true)
+    @ApiModelProperty(value = "上下架状态，值集 O2PCM.SHELF_STATUS")
     @NotBlank
     private String shelfStatus;
     @ApiModelProperty(value = "商品描述，支持长文本")
@@ -87,7 +87,7 @@ public class ProductSpu extends AuditDomain {
     private String recommendation;
     @ApiModelProperty(value = "关键字")
     private String keyWords;
-    @ApiModelProperty(value = "是否停止销售", required = true)
+    @ApiModelProperty(value = "是否停止销售")
     @NotNull
     private Integer isStopSelling;
     @ApiModelProperty(value = "买家评分")

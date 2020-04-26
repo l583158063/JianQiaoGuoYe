@@ -45,13 +45,13 @@ public class RefundOrderEntry extends AuditDomain {
     @Id
     @GeneratedValue
     private Long refundOrderEntryId;
-    @ApiModelProperty(value = "订单行序号", required = true)
+    @ApiModelProperty(value = "订单行序号")
     @NotNull
     private Long entryNumber;
-    @ApiModelProperty(value = "退款单头,关联refund_order.refund_order_id", required = true)
+    @ApiModelProperty(value = "退款单头,关联refund_order.refund_order_id")
     @NotNull
     private Long refundOrderId;
-    @ApiModelProperty(value = "订单行,关联order_entry.order_entry_id", required = true)
+    @ApiModelProperty(value = "订单行,关联order_entry.order_entry_id")
     @NotNull
     private Long orderEntryId;
     @ApiModelProperty(value = "退款数量")

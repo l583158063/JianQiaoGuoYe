@@ -47,25 +47,25 @@ public class ProductSkuPrice extends AuditDomain {
     @Id
     @GeneratedValue
     private Long priceId;
-    @ApiModelProperty(value = "sku商品id，关联product_sku.product_sku_id", required = true)
+    @ApiModelProperty(value = "sku商品id，关联product_sku.product_sku_id")
     @NotNull
     private Long productSkuId;
-    @ApiModelProperty(value = "价格", required = true)
+    @ApiModelProperty(value = "价格")
     @NotNull
     private BigDecimal price;
-    @ApiModelProperty(value = "货币类型,值集：O2PCM.CURRENCY_TYPE", required = true)
+    @ApiModelProperty(value = "货币类型,值集：O2PCM.CURRENCY_TYPE")
     @NotBlank
     private String currencyTypeCode;
-    @ApiModelProperty(value = "开始日期", required = true)
+    @ApiModelProperty(value = "开始日期")
     @NotNull
     private Date dateFrom;
-    @ApiModelProperty(value = "结束日期", required = true)
+    @ApiModelProperty(value = "结束日期")
     @NotNull
     private Date dateTo;
-    @ApiModelProperty(value = "是否删除", required = true)
+    @ApiModelProperty(value = "是否删除")
     @NotNull
     private Integer isDelete;
-    @ApiModelProperty(value = "价格版本号", required = true)
+    @ApiModelProperty(value = "价格版本号")
     @NotNull
     private Long versionNumber;
 

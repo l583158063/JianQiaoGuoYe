@@ -44,18 +44,18 @@ public class StockLevelLog extends AuditDomain {
     @Id
     @GeneratedValue
     private Long stockLevelLogId;
-    @ApiModelProperty(value = "关联库存", required = true)
+    @ApiModelProperty(value = "关联库存")
     @NotNull
     private Long stockLevelId;
-    @ApiModelProperty(value = "库存现有量变动", required = true)
+    @ApiModelProperty(value = "库存现有量变动")
     @NotNull
     private Long inStockChange;
-    @ApiModelProperty(value = "库存保留量变动", required = true)
+    @ApiModelProperty(value = "库存保留量变动")
     @NotNull
     private Long reservedQuantityChange;
     @ApiModelProperty(value = "负责人，hzero的用户ID(iam_user.user_id)")
     private Long handlerId;
-    @ApiModelProperty(value = "库存变动状态编码", required = true)
+    @ApiModelProperty(value = "库存变动状态编码")
     @NotBlank
     private String statusCode;
     @ApiModelProperty(value = "备注说明")

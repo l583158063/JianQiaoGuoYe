@@ -61,10 +61,10 @@ public class RefundOrder extends AuditDomain {
     @Id
     @GeneratedValue
     private Long refundOrderId;
-    @ApiModelProperty(value = "退款单编码", required = true)
+    @ApiModelProperty(value = "退款单编码")
     @NotBlank
     private String refundOrderCode;
-    @ApiModelProperty(value = "关联订单", required = true)
+    @ApiModelProperty(value = "关联订单")
     @NotNull
     private Long orderId;
     @ApiModelProperty(value = "退款类型,值集：O2RF.REFUND_TYPE")
@@ -77,7 +77,7 @@ public class RefundOrder extends AuditDomain {
     private String refundReasonCode;
     @ApiModelProperty(value = "拦截状态,值集：O2RF.INTERCEPT_STATUS")
     private String interceptStatusCode;
-    @ApiModelProperty(value = "退款说明", required = true)
+    @ApiModelProperty(value = "退款说明")
     @NotBlank
     private String refundNote;
     @ApiModelProperty(value = "凭证插图")
@@ -100,12 +100,12 @@ public class RefundOrder extends AuditDomain {
     private BigDecimal timeoutPaidAmount;
     @ApiModelProperty(value = "退款方式")
     private String refundWay;
-    @ApiModelProperty(value = "是否已查询退款单状态", required = true)
+    @ApiModelProperty(value = "是否已查询退款单状态")
     @NotNull
     private Integer isSearchRefund;
     @ApiModelProperty(value = "客服备注")
     private String serviceNote;
-    @ApiModelProperty(value = "是否通知退款成功", required = true)
+    @ApiModelProperty(value = "是否通知退款成功")
     @NotNull
     private Integer isNotifiedSuccess;
 

@@ -45,21 +45,21 @@ public class MetadataRegion extends AuditDomain {
     @Id
     @GeneratedValue
     private Long regionId;
-    @ApiModelProperty(value = "国家id", required = true)
+    @ApiModelProperty(value = "国家id")
     @NotNull
     private Long countryId;
-    @ApiModelProperty(value = "区域编码", required = true)
+    @ApiModelProperty(value = "区域编码")
     @NotBlank
     private String regionCode;
-    @ApiModelProperty(value = "区域名称", required = true)
+    @ApiModelProperty(value = "区域名称")
     @NotBlank
     private String regionName;
     @ApiModelProperty(value = "父区域id")
     private Long parentRegionId;
-    @ApiModelProperty(value = "等级路径", required = true)
+    @ApiModelProperty(value = "等级路径")
     @NotBlank
     private String levelPath;
-    @ApiModelProperty(value = "启用标识", required = true)
+    @ApiModelProperty(value = "启用标识")
     @NotNull
     private Integer isEnabled;
     @ApiModelProperty(value = "大区，值集O2MD.AREA_CODE")

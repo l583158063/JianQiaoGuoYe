@@ -69,7 +69,7 @@ public class Order extends AuditDomain {
     @Id
     @GeneratedValue
     private Long orderId;
-    @ApiModelProperty(value = "订单编号", required = true)
+    @ApiModelProperty(value = "订单编号")
     @NotBlank
     private String orderCode;
     @ApiModelProperty(value = "订单类型,值集O2OF.ORDER_TYPE")
@@ -84,7 +84,7 @@ public class Order extends AuditDomain {
     private String sellerRemarks;
     @ApiModelProperty(value = "付款时间")
     private Date paidTime;
-    @ApiModelProperty(value = "是否已付款", required = true)
+    @ApiModelProperty(value = "是否已付款")
     @NotNull
     private Integer isPaid;
     @ApiModelProperty(value = "实付金额,精度2")
@@ -99,19 +99,19 @@ public class Order extends AuditDomain {
     private String deliveryTypeCode;
     @ApiModelProperty(value = "总价")
     private BigDecimal totalAmount;
-    @ApiModelProperty(value = "是否手工审批", required = true)
+    @ApiModelProperty(value = "是否手工审批")
     @NotNull
     private Integer isManualApproved;
     @ApiModelProperty(value = "日志")
     private String processMessage;
     @ApiModelProperty(value = "退货单id，关联return_order.return_order_id")
     private Long returnOrderId;
-    @ApiModelProperty(value = "是否已评价", required = true)
+    @ApiModelProperty(value = "是否已评价")
     @NotNull
     private Integer isCommented;
     @ApiModelProperty(value = "开票状态,值集：LJOF.INVOICE_STATUS")
     private String invoiceStatusCode;
-    @ApiModelProperty(value = "是否累计积分", required = true)
+    @ApiModelProperty(value = "是否累计积分")
     @NotNull
     private Integer isPointAccumulate;
     @ApiModelProperty(value = "临时订单号")
@@ -120,19 +120,19 @@ public class Order extends AuditDomain {
     private Integer isManualRecording;
     @ApiModelProperty(value = "会员ID，指向customer_id")
     private Long customerId;
-    @ApiModelProperty(value = "是否大客户订单", required = true)
+    @ApiModelProperty(value = "是否大客户订单")
     @NotNull
     private Integer isMajorCustomer;
     @ApiModelProperty(value = "备注")
     private String remarks;
-    @ApiModelProperty(value = "是否删除", required = true)
+    @ApiModelProperty(value = "是否删除")
     @NotNull
     private Integer isDelete;
     @ApiModelProperty(value = "快递配送时间")
     private Date deliveryTime;
     @ApiModelProperty(value = "快递单号")
     private String deliveryNumber;
-    @ApiModelProperty(value = "快递是否已发出", required = true)
+    @ApiModelProperty(value = "快递是否已发出")
     @NotNull
     private Integer isDeliveryDispatch;
 

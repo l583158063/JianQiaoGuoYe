@@ -58,14 +58,14 @@ public class Customer extends AuditDomain {
     private Long customerId;
     @ApiModelProperty(value = "用户名")
     private String customerName;
-    @ApiModelProperty(value = "国际电话区号", required = true)
+    @ApiModelProperty(value = "国际电话区号")
     @NotBlank
     private String internationalTelCode;
     @ApiModelProperty(value = "手机号")
     private String mobileNumber;
     @ApiModelProperty(value = "昵称")
     private String nickName;
-    @ApiModelProperty(value = "是否在黑名单", required = true)
+    @ApiModelProperty(value = "是否在黑名单")
     @NotNull
     private Integer blackListFlag;
     @ApiModelProperty(value = "备注")
@@ -78,14 +78,14 @@ public class Customer extends AuditDomain {
     private Date birthDate;
     @ApiModelProperty(value = "注册时间")
     private Date registerDate;
-    @ApiModelProperty(value = "会员状态，取自值集CUSTOMER.STATUS", required = true)
+    @ApiModelProperty(value = "会员状态，取自值集CUSTOMER.STATUS")
     @NotBlank
     private String statusCode;
     @ApiModelProperty(value = "最近一次登录时间")
     private Date lastLoginDate;
     @ApiModelProperty(value = "hzero的用户ID(iam_user.user_id)")
     private Long hzeroUserId;
-    @ApiModelProperty(value = "是否已完善信息", required = true)
+    @ApiModelProperty(value = "是否已完善信息")
     @NotNull
     private Integer isFullInfo;
     @ApiModelProperty(value = "头像")

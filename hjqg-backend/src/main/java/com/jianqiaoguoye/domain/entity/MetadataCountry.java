@@ -41,13 +41,13 @@ public class MetadataCountry extends AuditDomain {
     @Id
     @GeneratedValue
     private Long countryId;
-    @ApiModelProperty(value = "国家编码", required = true)
+    @ApiModelProperty(value = "国家编码")
     @NotBlank
     private String countryCode;
-    @ApiModelProperty(value = "国家名称", required = true)
+    @ApiModelProperty(value = "国家名称")
     @NotBlank
     private String countryName;
-    @ApiModelProperty(value = "启用标识", required = true)
+    @ApiModelProperty(value = "启用标识")
     @NotNull
     private Integer isEnabled;
 

@@ -41,13 +41,13 @@ public class ConsignmentEntry extends AuditDomain {
     @Id
     @GeneratedValue
     private Long consignmentEntryId;
-    @ApiModelProperty(value = "行号", required = true)
+    @ApiModelProperty(value = "行号")
     @NotNull
     private Long entryNumber;
-    @ApiModelProperty(value = "配货单,关联consignment.consignment_id", required = true)
+    @ApiModelProperty(value = "配货单,关联consignment.consignment_id")
     @NotNull
     private Long consignmentId;
-    @ApiModelProperty(value = "订单行,关联order_entry.order_entry_id", required = true)
+    @ApiModelProperty(value = "订单行,关联order_entry.order_entry_id")
     @NotNull
     private Long orderEntryId;
     @ApiModelProperty(value = "备注")

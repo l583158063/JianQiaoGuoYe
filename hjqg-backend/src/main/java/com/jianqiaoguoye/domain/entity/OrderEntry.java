@@ -55,26 +55,26 @@ public class OrderEntry extends AuditDomain {
     @Id
     @GeneratedValue
     private Long orderEntryId;
-    @ApiModelProperty(value = "订单ID，关联order.order_id", required = true)
+    @ApiModelProperty(value = "订单ID，关联order.order_id")
     @NotNull
     private Long orderId;
-    @ApiModelProperty(value = "订单行序号", required = true)
+    @ApiModelProperty(value = "订单行序号")
     @NotNull
     private Long entryNumber;
-    @ApiModelProperty(value = "商品数量", required = true)
+    @ApiModelProperty(value = "商品数量")
     @NotNull
     private Long quantity;
-    @ApiModelProperty(value = "商品单价", required = true)
+    @ApiModelProperty(value = "商品单价")
     @NotNull
     private BigDecimal unitPrice;
     @ApiModelProperty(value = "卖家手工调整行总金额")
     private BigDecimal adjustAmount;
     @ApiModelProperty(value = "行优惠金额")
     private BigDecimal discountAmount;
-    @ApiModelProperty(value = "SKU平台商品ID，关联表product_sku", required = true)
+    @ApiModelProperty(value = "SKU平台商品ID，关联表product_sku")
     @NotNull
     private Long productSkuId;
-    @ApiModelProperty(value = "是否赠品", required = true)
+    @ApiModelProperty(value = "是否赠品")
     @NotNull
     private Integer isGift;
     @ApiModelProperty(value = "销售金额")
@@ -83,15 +83,15 @@ public class OrderEntry extends AuditDomain {
     private BigDecimal actualPaidAmount;
     @ApiModelProperty(value = "退货单行id，关联return_order_entry.return_order_entry_id")
     private Long returnOrderEntryId;
-    @ApiModelProperty(value = "是否退货", required = true)
+    @ApiModelProperty(value = "是否退货")
     @NotNull
     private Integer isReturned;
     @ApiModelProperty(value = "成本价")
     private BigDecimal costPrice;
-    @ApiModelProperty(value = "订单行状态,值集O2OF.ORDER_ENTRY_STATUS", required = true)
+    @ApiModelProperty(value = "订单行状态,值集O2OF.ORDER_ENTRY_STATUS")
     @NotBlank
     private String statusCode;
-    @ApiModelProperty(value = "是否折扣价", required = true)
+    @ApiModelProperty(value = "是否折扣价")
     @NotNull
     private Integer isDiscountPrice;
     @ApiModelProperty(value = "备注")

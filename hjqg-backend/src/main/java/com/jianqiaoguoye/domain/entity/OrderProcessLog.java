@@ -45,12 +45,12 @@ public class OrderProcessLog extends AuditDomain {
     @Id
     @GeneratedValue
     private Long orderProcessLogId;
-    @ApiModelProperty(value = "关联order", required = true)
+    @ApiModelProperty(value = "关联order")
     @NotNull
     private Long orderId;
     @ApiModelProperty(value = "关联consignment")
     private Long consignmentId;
-    @ApiModelProperty(value = "处理结果", required = true)
+    @ApiModelProperty(value = "处理结果")
     @NotBlank
     private String processMessage;
     @ApiModelProperty(value = "前一个订单状态")
@@ -59,7 +59,7 @@ public class OrderProcessLog extends AuditDomain {
     private String currentStatus;
     @ApiModelProperty(value = "备注说明")
     private String remark;
-    @ApiModelProperty(value = "处理人ID，hzero的用户ID(iam_user.user_id)", required = true)
+    @ApiModelProperty(value = "处理人ID，hzero的用户ID(iam_user.user_id)")
     @NotNull
     private Long handlerId;
 

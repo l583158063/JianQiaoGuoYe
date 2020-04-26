@@ -49,13 +49,13 @@ public class ProductAttributeSku extends AuditDomain {
     private Long attributeSkuId;
     @ApiModelProperty(value = "商品SKU编号")
     private Long productSkuId;
-    @ApiModelProperty(value = "属性编码", required = true)
+    @ApiModelProperty(value = "属性编码")
     @NotBlank
     private String attributeCode;
-    @ApiModelProperty(value = "属性名称", required = true)
+    @ApiModelProperty(value = "属性名称")
     @NotBlank
     private String attributeName;
-    @ApiModelProperty(value = "启用标识", required = true)
+    @ApiModelProperty(value = "启用标识")
     @NotNull
     private Integer isEnabled;
     @ApiModelProperty(value = "有效期从")

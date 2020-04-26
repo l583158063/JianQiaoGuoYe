@@ -46,26 +46,26 @@ public class Comment extends AuditDomain {
     @Id
     @GeneratedValue
     private Long commentId;
-    @ApiModelProperty(value = "关联order", required = true)
+    @ApiModelProperty(value = "关联order")
     @NotNull
     private Long orderId;
-    @ApiModelProperty(value = "关联customer", required = true)
+    @ApiModelProperty(value = "关联customer")
     @NotNull
     private Long customerId;
-    @ApiModelProperty(value = "关联商品spu", required = true)
+    @ApiModelProperty(value = "关联商品spu")
     @NotNull
     private Long productSpuId;
-    @ApiModelProperty(value = "评价内容", required = true)
+    @ApiModelProperty(value = "评价内容")
     @NotBlank
     private String content;
     @ApiModelProperty(value = "评价插图")
     private String imageUrl;
-    @ApiModelProperty(value = "启用标识", required = true)
+    @ApiModelProperty(value = "启用标识")
     @NotNull
     private Integer isEnabled;
     @ApiModelProperty(value = "排序号")
     private Long orderSeq;
-    @ApiModelProperty(value = "用户评分", required = true)
+    @ApiModelProperty(value = "用户评分")
     @NotNull
     private Long grade;
 

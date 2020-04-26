@@ -57,7 +57,7 @@ public class ProductSku extends AuditDomain {
     private Long productSkuId;
     @ApiModelProperty(value = "sku编码")
     private String productSkuCode;
-    @ApiModelProperty(value = "商品类型", required = true)
+    @ApiModelProperty(value = "商品类型")
     @NotNull
     private Long categoryId;
     @ApiModelProperty(value = "sku属性")
@@ -70,7 +70,7 @@ public class ProductSku extends AuditDomain {
     private Date onlineDate;
     @ApiModelProperty(value = "下架日期")
     private Date offlineDate;
-    @ApiModelProperty(value = "上下架状态，值集 O2PCM.SHELF_STATUS", required = true)
+    @ApiModelProperty(value = "上下架状态，值集 O2PCM.SHELF_STATUS")
     @NotBlank
     private String shelfStatus;
     @ApiModelProperty(value = "标题")
