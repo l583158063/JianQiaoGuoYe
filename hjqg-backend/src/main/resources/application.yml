@@ -90,6 +90,13 @@ mybatis:
   configuration:
     mapUnderscoreToCamelCase: true
 
+hzero:
+  lov:
+    sql:
+      enabled: true
+    value:
+      enabled: true
+
 
 logging:
   level:
