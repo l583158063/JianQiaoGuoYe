@@ -27,7 +27,6 @@ public class ProductSpu extends AuditDomain {
     public static final String FIELD_PRODUCT_SPU_ID = "productSpuId";
     public static final String FIELD_PRODUCT_SPU_CODE = "productSpuCode";
     public static final String FIELD_CATEGORY_ID = "categoryId";
-    public static final String FIELD_ATTRIBUTE_SPU_ID = "attributeSpuId";
     public static final String FIELD_TITLE = "title";
     public static final String FIELD_POST_STATUS_CODE = "postStatusCode";
     public static final String FIELD_TAX_RATE = "taxRate";
@@ -60,8 +59,6 @@ public class ProductSpu extends AuditDomain {
     @ApiModelProperty(value = "商品类型")
     @NotNull
     private Long categoryId;
-    @ApiModelProperty(value = "spu属性")
-    private Long attributeSpuId;
     @ApiModelProperty(value = "标题")
     private String title;
     @ApiModelProperty(value = "发布状态，值集:O2PCM.POST_STATUS")
@@ -132,17 +129,6 @@ public class ProductSpu extends AuditDomain {
 
     public void setCategoryId(final Long categoryId) {
         this.categoryId = categoryId;
-    }
-
-    /**
-     * @return spu属性
-     */
-    public Long getAttributeSpuId() {
-        return attributeSpuId;
-    }
-
-    public void setAttributeSpuId(final Long attributeSpuId) {
-        this.attributeSpuId = attributeSpuId;
     }
 
     /**

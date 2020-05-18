@@ -41,6 +41,7 @@ public class ProductSku extends AuditDomain {
     public static final String FIELD_IS_CALCULATE_STOCK_LEVEL = "isCalculateStockLevel";
     public static final String FIELD_COUNTRY_ID = "countryId";
     public static final String FIELD_REGION_ID = "regionId";
+    public static final String FIELD_IMAGE_URL = "imageUrl";
 
     //
     // 业务方法(按public protected private顺序排列)
@@ -60,8 +61,6 @@ public class ProductSku extends AuditDomain {
     @ApiModelProperty(value = "商品类型")
     @NotNull
     private Long categoryId;
-    @ApiModelProperty(value = "sku属性")
-    private Long attributeSkuId;
     @ApiModelProperty(value = "关联商品spuId,product_spu.product_spu_id")
     private Long productSpuId;
     @ApiModelProperty(value = "商品状态,值集：O2PCM.PRODUCT_STATUS")
@@ -89,6 +88,8 @@ public class ProductSku extends AuditDomain {
     private Long countryId;
     @ApiModelProperty(value = "产地，地区")
     private Long regionId;
+    @ApiModelProperty(value = "图片url")
+    private String imageUrl;
 
     //
     // 非数据库字段
@@ -132,14 +133,14 @@ public class ProductSku extends AuditDomain {
     }
 
     /**
-     * @return sku属性
+     * @return 图片url
      */
-    public Long getAttributeSkuId() {
-        return attributeSkuId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setAttributeSkuId(final Long attributeSkuId) {
-        this.attributeSkuId = attributeSkuId;
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     /**
