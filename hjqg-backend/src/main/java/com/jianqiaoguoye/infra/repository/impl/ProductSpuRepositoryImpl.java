@@ -1,9 +1,11 @@
 package com.jianqiaoguoye.infra.repository.impl;
 
-import org.hzero.mybatis.base.impl.BaseRepositoryImpl;
 import com.jianqiaoguoye.domain.entity.ProductSpu;
 import com.jianqiaoguoye.domain.repository.ProductSpuRepository;
+import org.hzero.mybatis.base.impl.BaseRepositoryImpl;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 商品spu 资源库实现
@@ -13,5 +15,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductSpuRepositoryImpl extends BaseRepositoryImpl<ProductSpu> implements ProductSpuRepository {
 
-  
+
+    @Override
+    public void submit(List<ProductSpu> productSpuList) {
+        CommonRepositoryImpl.handleSubmit(this, productSpuList);
+    }
+
 }
