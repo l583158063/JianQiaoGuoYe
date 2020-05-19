@@ -41,7 +41,7 @@ public class MetadataRegion extends AuditDomain {
     // ------------------------------------------------------------------------------
 
 
-    @ApiModelProperty("")
+    @ApiModelProperty("表ID，主键，供其他表做外键")
     @Id
     @GeneratedValue
     private Long regionId;
