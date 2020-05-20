@@ -1,7 +1,15 @@
 package com.jianqiaoguoye.app.service.impl;
 
 import com.jianqiaoguoye.app.service.ProductSpuService;
+import com.jianqiaoguoye.domain.entity.ProductSpu;
+import com.jianqiaoguoye.domain.repository.ProductSpuRepository;
+import com.jianqiaoguoye.infra.util.StringConstant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+
 /**
  * 商品spu应用服务默认实现
  *
@@ -10,4 +18,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductSpuServiceImpl implements ProductSpuService {
 
+    @Autowired
+    private ProductSpuRepository productSpuRepository;
+
+    @Override
+    public List<ProductSpu> list(ProductSpu productSpu) {
+        productSpu = (Objects.isNull(productSpu)) ? new ProductSpu() : productSpu;
+        return productSpuRepository.list(productSpu);
+    }
+
+    @Override
+    public void onShelf(List<ProductSpu> productSpuList, Integer isOnShelf) {
+        switch (isOnShelf) {
+            case 1:
+                productSpuList.forEach(productSpu -> productSpu.setShelfStatus(StringConstant.Product.ShelfStatus.ON));
+                break;
+            case 0:
+                productSpuList.forEach(productSpu -> productSpu.setShelfStatus(StringConstant.Product.ShelfStatus.OFF));
+                break;
+            default:
+                break;
+        }
+        productSpuRepository.batchUpdateByPrimaryKeySelective(productSpuList);
+    }
 }

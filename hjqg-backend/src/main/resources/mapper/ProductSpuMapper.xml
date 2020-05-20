@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jianqiaoguoye.infra.mapper.ProductSpuMapper">
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.ProductSpu">
         <result column="product_spu_id" property="productSpuId" jdbcType="DECIMAL"/>
         <result column="product_spu_code" property="productSpuCode" jdbcType="VARCHAR"/>
         <result column="category_id" property="categoryId" jdbcType="DECIMAL"/>
-        <result column="attribute_spu_id" property="attributeSpuId" jdbcType="DECIMAL"/>
+        <result column="category_code" property="categoryCode" jdbcType="VARCHAR"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="post_status_code" property="postStatusCode" jdbcType="VARCHAR"/>
         <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
@@ -26,4 +27,53 @@
         <result column="is_stop_selling" property="isStopSelling" jdbcType="DECIMAL"/>
         <result column="customer_grade" property="customerGrade" jdbcType="DECIMAL"/>
     </resultMap>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT
+        spu.product_spu_id,
+        spu.product_spu_code,
+        spu.category_id,
+        pc.category_code,
+        pc.category_name,
+        spu.title,
+        spu.post_status_code,
+        spu.object_version_number,
+        spu.creation_date,
+        spu.created_by,
+        spu.last_updated_by,
+        spu.last_update_date,
+        spu.tax_rate,
+        spu.order_seq,
+        spu.is_enable_expressed,
+        spu.is_enable_picked_up,
+        spu.shelf_status,
+        spu.description,
+        spu.sales_volume,
+        spu.recommendation,
+        spu.key_words,
+        spu.is_stop_selling,
+        spu.customer_grade
+        FROM product_spu spu
+        INNER JOIN product_category pc
+        ON spu.category_id = pc.category_id
+        <where>
+            1 = 1
+            <if test="productSpu.productSpuId != null">
+                AND spu.product_spu_id = #{productSpu.productSpuId}
+            </if>
+            <if test="productSpu.productSpuCode != null and productSpu.productSpuCode != ''">
+                AND spu.product_spu_code = #{productSpu.productSpuCode}
+            </if>
+            <if test="productSpu.shelfStatus != null and productSpu.shelfStatus != ''">
+                AND spu.shelf_status = #{productSpu.shelfStatus}
+            </if>
+            <if test="productSpu.categoryId != null">
+                AND pc.category_id = #{productSpu.categoryId}
+            </if>
+            <if test="productSpu.title != null and productSpu.title != ''">
+                <bind name="titleLike" value="'%' + productSpu.title + '%'"/>
+                AND spu.title LIKE #{titleLike}
+            </if>
+        </where>
+    </select>
 </mapper>

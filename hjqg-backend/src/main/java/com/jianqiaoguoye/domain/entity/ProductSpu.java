@@ -5,10 +5,14 @@ import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hzero.boot.platform.lov.annotation.LovValue;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -18,6 +22,8 @@ import java.math.BigDecimal;
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:28
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @ApiModel("商品spu")
 @VersionAudit
 @ModifyAudit
@@ -61,7 +67,8 @@ public class ProductSpu extends AuditDomain {
     private Long categoryId;
     @ApiModelProperty(value = "标题")
     private String title;
-    @ApiModelProperty(value = "发布状态，值集:O2PCM.POST_STATUS")
+    @ApiModelProperty(value = "发布状态，值集: JIANQIAO.PRODUCT_POST_STATUS")
+    @LovValue(lovCode = "JIANQIAO.PRODUCT_POST_STATUS")
     private String postStatusCode;
     @ApiModelProperty(value = "税率")
     private BigDecimal taxRate;
@@ -73,8 +80,9 @@ public class ProductSpu extends AuditDomain {
     @ApiModelProperty(value = "是否支持自提")
     @NotNull
     private Integer isEnablePickedUp;
-    @ApiModelProperty(value = "上下架状态，值集 O2PCM.SHELF_STATUS")
+    @ApiModelProperty(value = "上下架状态，值集: JIANQIAO.PRODUCT_SHELF_STATUS")
     @NotBlank
+    @LovValue(lovCode = "JIANQIAO.PRODUCT_SHELF_STATUS")
     private String shelfStatus;
     @ApiModelProperty(value = "商品描述，支持长文本")
     private String description;
@@ -93,6 +101,15 @@ public class ProductSpu extends AuditDomain {
     //
     // 非数据库字段
     // ------------------------------------------------------------------------------
+
+    @Transient
+    private String postStatusMeaning;
+    @Transient
+    private String shelfStatusMeaning;
+    @Transient
+    private String categoryCode;
+    @Transient
+    private String categoryName;
 
     //
     // getter/setter

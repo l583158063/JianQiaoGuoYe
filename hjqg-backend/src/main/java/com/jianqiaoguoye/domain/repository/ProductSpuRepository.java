@@ -14,7 +14,17 @@ public interface ProductSpuRepository extends BaseRepository<ProductSpu> {
 
 
     /**
+     * 响应提交
+     *
      * @param productSpuList 接收提交数据
      */
     void submit(List<ProductSpu> productSpuList);
+
+    /**
+     * 列表查询
+     *
+     * @param productSpu 查询条件
+     * @return 查询结果列表
+     */
+    List<ProductSpu> list(ProductSpu productSpu);
 }

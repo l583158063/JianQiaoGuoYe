@@ -7,6 +7,9 @@ import org.hzero.mybatis.base.impl.BaseRepositoryImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Luwx
+ */
 public class CommonRepositoryImpl {
 
     static <T extends AuditDomain> void handleSubmit(BaseRepositoryImpl<T> repository, List<T> list) {

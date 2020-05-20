@@ -1,11 +1,13 @@
 package com.jianqiaoguoye.api.controller.v1;
 
 import com.alibaba.fastjson.JSON;
+import com.jianqiaoguoye.app.service.ProductSpuService;
 import com.jianqiaoguoye.config.SwaggerTags;
 import com.jianqiaoguoye.domain.entity.ProductSpu;
 import com.jianqiaoguoye.domain.repository.ProductSpuRepository;
 import io.choerodon.core.domain.Page;
 import io.choerodon.core.iam.ResourceLevel;
+import io.choerodon.mybatis.pagehelper.PageHelper;
 import io.choerodon.mybatis.pagehelper.annotation.SortDefault;
 import io.choerodon.mybatis.pagehelper.domain.PageRequest;
 import io.choerodon.mybatis.pagehelper.domain.Sort;
@@ -13,6 +15,8 @@ import io.choerodon.swagger.annotation.Permission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.hzero.boot.platform.lov.annotation.ProcessLovValue;
+import org.hzero.core.base.BaseConstants;
 import org.hzero.core.base.BaseController;
 import org.hzero.core.util.Results;
 import org.hzero.mybatis.helper.SecurityTokenHelper;
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -43,13 +48,16 @@ public class ProductSpuController extends BaseController {
 
     @Autowired
     private ProductSpuRepository productSpuRepository;
+    @Autowired
+    private ProductSpuService productSpuService;
 
     @ApiOperation(value = "商品spu列表")
     @Permission(level = ResourceLevel.SITE)
+    @ProcessLovValue(targetField = BaseConstants.FIELD_BODY)
     @GetMapping
-    public ResponseEntity<?> list(ProductSpu productSpu, @ApiIgnore @SortDefault(value = ProductSpu.FIELD_PRODUCT_SPU_ID,
+    public ResponseEntity<?> list(ProductSpu productSpu, @ApiIgnore @SortDefault(value = ProductSpu.FIELD_ORDER_SEQ,
             direction = Sort.Direction.DESC) PageRequest pageRequest) {
-        Page<ProductSpu> list = productSpuRepository.pageAndSort(pageRequest, productSpu);
+        Page<ProductSpu> list = PageHelper.doPageAndSort(pageRequest, () -> productSpuService.list(productSpu));
         return Results.success(list);
     }
 
@@ -95,6 +103,19 @@ public class ProductSpuController extends BaseController {
             log.debug(JSON.toJSONString(productSpuList));
         }
         productSpuRepository.submit(productSpuList);
+        return Results.success();
+    }
+
+    @ApiOperation(value = "商品上下架, isOnShelf = 1 为上架")
+    @Permission(level = ResourceLevel.SITE)
+    @PostMapping("/on-shelf")
+    public ResponseEntity<?> onShelf(@RequestBody List<ProductSpu> productSpuList,
+                                     @RequestParam Integer isOnShelf) {
+        if (log.isDebugEnabled()) {
+            log.debug(JSON.toJSONString(productSpuList));
+            log.debug("isOnShelf: {}", isOnShelf);
+        }
+        productSpuService.onShelf(productSpuList, isOnShelf);
         return Results.success();
     }
 }

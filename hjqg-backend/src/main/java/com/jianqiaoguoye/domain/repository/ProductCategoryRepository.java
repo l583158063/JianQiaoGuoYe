@@ -13,6 +13,8 @@ import java.util.List;
 public interface ProductCategoryRepository extends BaseRepository<ProductCategory> {
 
     /**
+     * 响应提交
+     *
      * @param productCategoryList 接收提交数据
      */
     void submit(List<ProductCategory> productCategoryList);
