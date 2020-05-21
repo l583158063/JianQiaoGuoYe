@@ -7,12 +7,15 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hzero.boot.platform.lov.annotation.LovValue;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 /**
  * 商品sku
@@ -29,13 +32,9 @@ public class ProductSku extends AuditDomain {
 
     public static final String FIELD_PRODUCT_SKU_ID = "productSkuId";
     public static final String FIELD_PRODUCT_SKU_CODE = "productSkuCode";
-    public static final String FIELD_CATEGORY_ID = "categoryId";
-    public static final String FIELD_ATTRIBUTE_SKU_ID = "attributeSkuId";
+    public static final String FIELD_PRICE = "price";
     public static final String FIELD_PRODUCT_SPU_ID = "productSpuId";
     public static final String FIELD_STATUS_CODE = "statusCode";
-    public static final String FIELD_ONLINE_DATE = "onlineDate";
-    public static final String FIELD_OFFLINE_DATE = "offlineDate";
-    public static final String FIELD_SHELF_STATUS = "shelfStatus";
     public static final String FIELD_TITLE = "title";
     public static final String FIELD_RECOMMENDATION = "recommendation";
     public static final String FIELD_IS_ELIMINATE_PRICE = "isEliminatePrice";
@@ -44,6 +43,7 @@ public class ProductSku extends AuditDomain {
     public static final String FIELD_IS_CALCULATE_STOCK_LEVEL = "isCalculateStockLevel";
     public static final String FIELD_HABITAT = "habitat";
     public static final String FIELD_IMAGE_URL = "imageUrl";
+    public static final String FIELD_STOCK_LEVEL = "stockLevel";
 
     //
     // 业务方法(按public protected private顺序排列)
@@ -53,19 +53,24 @@ public class ProductSku extends AuditDomain {
     // 数据库字段
     // ------------------------------------------------------------------------------
 
-
     @ApiModelProperty("表ID，主键，供其他表做外键")
     @Id
     @GeneratedValue
     private Long productSkuId;
     @ApiModelProperty(value = "sku编码")
+    @NotBlank
     private String productSkuCode;
     @ApiModelProperty(value = "关联商品spuId,product_spu.product_spu_id")
     private Long productSpuId;
-    @ApiModelProperty(value = "商品状态,值集：O2PCM.PRODUCT_STATUS")
+    @ApiModelProperty(value = "商品状态,值集：JIANQIAO.PRODUCT_SKU_STATUS_CODE")
+    @LovValue(lovCode = "JIANQIAO.PRODUCT_SKU_STATUS_CODE")
     private String statusCode;
     @ApiModelProperty(value = "标题")
+    @NotBlank
     private String title;
+    @ApiModelProperty(value = "价格")
+    @NotNull
+    private BigDecimal price;
     @ApiModelProperty(value = "推荐语")
     private String recommendation;
     @ApiModelProperty(value = "是否排除价格")
@@ -80,6 +85,8 @@ public class ProductSku extends AuditDomain {
     private String habitat;
     @ApiModelProperty(value = "图片url")
     private String imageUrl;
+    @ApiModelProperty(value = "库存")
+    private Long stockLevel;
 
     //
     // 非数据库字段
@@ -88,134 +95,8 @@ public class ProductSku extends AuditDomain {
     @Transient
     private String statusMeaning;
     @Transient
-    @ApiModelProperty(value = "国家名称")
-    private String countryName;
+    private String spuTitle;
     @Transient
-    private List<MetadataRegion> regionList;
-
-    //
-    // getter/setter
-    // ------------------------------------------------------------------------------
-
-    /**
-     * @return 表ID，主键，供其他表做外键
-     */
-    public Long getProductSkuId() {
-        return productSkuId;
-    }
-
-    public void setProductSkuId(final Long productSkuId) {
-        this.productSkuId = productSkuId;
-    }
-
-    /**
-     * @return sku编码
-     */
-    public String getProductSkuCode() {
-        return productSkuCode;
-    }
-
-    public void setProductSkuCode(final String productSkuCode) {
-        this.productSkuCode = productSkuCode;
-    }
-
-    /**
-     * @return 图片url
-     */
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(final String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    /**
-     * @return 关联商品spuId, product_spu.product_spu_id
-     */
-    public Long getProductSpuId() {
-        return productSpuId;
-    }
-
-    public void setProductSpuId(final Long productSpuId) {
-        this.productSpuId = productSpuId;
-    }
-
-    /**
-     * @return 商品状态, 值集：O2PCM.PRODUCT_STATUS
-     */
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(final String statusCode) {
-        this.statusCode = statusCode;
-    }
-
-    /**
-     * @return 标题
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(final String title) {
-        this.title = title;
-    }
-
-    /**
-     * @return 推荐语
-     */
-    public String getRecommendation() {
-        return recommendation;
-    }
-
-    public void setRecommendation(final String recommendation) {
-        this.recommendation = recommendation;
-    }
-
-    /**
-     * @return 是否排除价格
-     */
-    public Integer getIsEliminatePrice() {
-        return isEliminatePrice;
-    }
-
-    public void setIsEliminatePrice(final Integer isEliminatePrice) {
-        this.isEliminatePrice = isEliminatePrice;
-    }
-
-    /**
-     * @return 是否排除库存
-     */
-    public Integer getIsEliminateStockLevel() {
-        return isEliminateStockLevel;
-    }
-
-    public void setIsEliminateStockLevel(final Integer isEliminateStockLevel) {
-        this.isEliminateStockLevel = isEliminateStockLevel;
-    }
-
-    /**
-     * @return 是否有库存
-     */
-    public Integer getIsExistStock() {
-        return isExistStock;
-    }
-
-    public void setIsExistStock(final Integer isExistStock) {
-        this.isExistStock = isExistStock;
-    }
-
-    /**
-     * @return 上下架是否已出发库存计算
-     */
-    public Integer getIsCalculateStockLevel() {
-        return isCalculateStockLevel;
-    }
-
-    public void setIsCalculateStockLevel(final Integer isCalculateStockLevel) {
-        this.isCalculateStockLevel = isCalculateStockLevel;
-    }
+    private String shelfStatus;
 
 }

@@ -62,11 +62,13 @@ public class ProductSpu extends AuditDomain {
     @GeneratedValue
     private Long productSpuId;
     @ApiModelProperty(value = "商品编码")
+    @NotBlank
     private String productSpuCode;
     @ApiModelProperty(value = "商品类型")
     @NotNull
     private Long categoryId;
     @ApiModelProperty(value = "标题")
+    @NotBlank
     private String title;
     @ApiModelProperty(value = "发布状态，值集: JIANQIAO.PRODUCT_POST_STATUS")
     @LovValue(lovCode = "JIANQIAO.PRODUCT_POST_STATUS")
