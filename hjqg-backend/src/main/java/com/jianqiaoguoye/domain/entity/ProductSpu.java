@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * 商品spu
@@ -84,6 +85,10 @@ public class ProductSpu extends AuditDomain {
     @NotBlank
     @LovValue(lovCode = "JIANQIAO.PRODUCT_SHELF_STATUS")
     private String shelfStatus;
+    @ApiModelProperty(value = "上架日期")
+    private LocalDateTime onlineDate;
+    @ApiModelProperty(value = "下架日期")
+    private LocalDateTime offlineDate;
     @ApiModelProperty(value = "商品描述，支持长文本")
     private String description;
     @ApiModelProperty(value = "销量")

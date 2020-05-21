@@ -5,19 +5,21 @@ import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+import javax.persistence.Transient;
 
 /**
  * 商品sku
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:32
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @ApiModel("商品sku")
 @VersionAudit
 @ModifyAudit
@@ -58,20 +60,10 @@ public class ProductSku extends AuditDomain {
     private Long productSkuId;
     @ApiModelProperty(value = "sku编码")
     private String productSkuCode;
-    @ApiModelProperty(value = "商品类型")
-    @NotNull
-    private Long categoryId;
     @ApiModelProperty(value = "关联商品spuId,product_spu.product_spu_id")
     private Long productSpuId;
     @ApiModelProperty(value = "商品状态,值集：O2PCM.PRODUCT_STATUS")
     private String statusCode;
-    @ApiModelProperty(value = "上架日期")
-    private Date onlineDate;
-    @ApiModelProperty(value = "下架日期")
-    private Date offlineDate;
-    @ApiModelProperty(value = "上下架状态，值集 O2PCM.SHELF_STATUS")
-    @NotBlank
-    private String shelfStatus;
     @ApiModelProperty(value = "标题")
     private String title;
     @ApiModelProperty(value = "推荐语")
@@ -94,6 +86,12 @@ public class ProductSku extends AuditDomain {
     //
     // 非数据库字段
     // ------------------------------------------------------------------------------
+
+    @Transient
+    private String statusMeaning;
+    @Transient
+    @ApiModelProperty(value = "国家名称")
+    private String countryName;
 
     //
     // getter/setter
@@ -119,17 +117,6 @@ public class ProductSku extends AuditDomain {
 
     public void setProductSkuCode(final String productSkuCode) {
         this.productSkuCode = productSkuCode;
-    }
-
-    /**
-     * @return 商品类型
-     */
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(final Long categoryId) {
-        this.categoryId = categoryId;
     }
 
     /**
@@ -163,39 +150,6 @@ public class ProductSku extends AuditDomain {
 
     public void setStatusCode(final String statusCode) {
         this.statusCode = statusCode;
-    }
-
-    /**
-     * @return 上架日期
-     */
-    public Date getOnlineDate() {
-        return onlineDate;
-    }
-
-    public void setOnlineDate(final Date onlineDate) {
-        this.onlineDate = onlineDate;
-    }
-
-    /**
-     * @return 下架日期
-     */
-    public Date getOfflineDate() {
-        return offlineDate;
-    }
-
-    public void setOfflineDate(final Date offlineDate) {
-        this.offlineDate = offlineDate;
-    }
-
-    /**
-     * @return 上下架状态，值集 O2PCM.SHELF_STATUS
-     */
-    public String getShelfStatus() {
-        return shelfStatus;
-    }
-
-    public void setShelfStatus(final String shelfStatus) {
-        this.shelfStatus = shelfStatus;
     }
 
     /**

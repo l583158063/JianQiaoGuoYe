@@ -20,6 +20,8 @@
         <result column="is_enable_expressed" property="isEnableExpressed" jdbcType="DECIMAL"/>
         <result column="is_enable_picked_up" property="isEnablePickedUp" jdbcType="DECIMAL"/>
         <result column="shelf_status" property="shelfStatus" jdbcType="VARCHAR"/>
+        <result column="online_date" property="onlineDate" jdbcType="DATE"/>
+        <result column="offline_date" property="offlineDate" jdbcType="DATE"/>
         <result column="description" property="description" jdbcType="VARCHAR"/>
         <result column="sales_volume" property="salesVolume" jdbcType="DECIMAL"/>
         <result column="recommendation" property="recommendation" jdbcType="VARCHAR"/>
@@ -52,6 +54,8 @@
         spu.recommendation,
         spu.key_words,
         spu.is_stop_selling,
+        spu.online_date,
+        spu.offline_date,
         spu.customer_grade
         FROM product_spu spu
         INNER JOIN product_category pc

@@ -7,6 +7,7 @@ import com.jianqiaoguoye.infra.util.StringConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,11 +31,19 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     @Override
     public void onShelf(List<ProductSpu> productSpuList, Integer isOnShelf) {
         switch (isOnShelf) {
+            // 商品上架
             case 1:
-                productSpuList.forEach(productSpu -> productSpu.setShelfStatus(StringConstant.Product.ShelfStatus.ON));
+                productSpuList.forEach(productSpu -> {
+                    productSpu.setShelfStatus(StringConstant.Product.ShelfStatus.ON);
+                    productSpu.setOnlineDate(LocalDateTime.now());
+                });
                 break;
+            // 商品下架
             case 0:
-                productSpuList.forEach(productSpu -> productSpu.setShelfStatus(StringConstant.Product.ShelfStatus.OFF));
+                productSpuList.forEach(productSpu -> {
+                    productSpu.setShelfStatus(StringConstant.Product.ShelfStatus.OFF);
+                    productSpu.setOfflineDate(LocalDateTime.now());
+                });
                 break;
             default:
                 break;

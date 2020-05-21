@@ -5,6 +5,8 @@ import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,6 +20,8 @@ import java.util.Date;
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:21
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @ApiModel("商品SPU属性")
 @VersionAudit
 @ModifyAudit
@@ -55,6 +59,9 @@ public class ProductAttributeSpu extends AuditDomain {
     @ApiModelProperty(value = "属性名称")
     @NotBlank
     private String attributeName;
+    @ApiModelProperty(value = "属性值")
+    @NotBlank
+    private String attributeValue;
     @ApiModelProperty(value = "启用标识")
     @NotNull
     private Integer isEnabled;
