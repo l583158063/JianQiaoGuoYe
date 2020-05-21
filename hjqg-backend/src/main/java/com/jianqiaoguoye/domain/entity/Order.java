@@ -5,6 +5,8 @@ import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,6 +21,8 @@ import java.util.Date;
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:28
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @ApiModel("订单头")
 @VersionAudit
 @ModifyAudit
@@ -54,6 +58,7 @@ public class Order extends AuditDomain {
     public static final String FIELD_IS_DELETE = "isDelete";
     public static final String FIELD_DELIVERY_TIME = "deliveryTime";
     public static final String FIELD_DELIVERY_NUMBER = "deliveryNumber";
+    public static final String FIELD_DELIVERY_CARRIER = "deliveryCarrier";
     public static final String FIELD_IS_DELIVERY_DISPATCH = "isDeliveryDispatch";
 
     //
@@ -132,6 +137,8 @@ public class Order extends AuditDomain {
     private Date deliveryTime;
     @ApiModelProperty(value = "快递单号")
     private String deliveryNumber;
+    @ApiModelProperty(value = "承运商")
+    private String deliveryCarrier;
     @ApiModelProperty(value = "快递是否已发出")
     @NotNull
     private Integer isDeliveryDispatch;

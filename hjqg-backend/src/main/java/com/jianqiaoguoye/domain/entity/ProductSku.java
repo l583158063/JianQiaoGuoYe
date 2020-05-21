@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.List;
 
 /**
  * 商品sku
@@ -41,8 +42,7 @@ public class ProductSku extends AuditDomain {
     public static final String FIELD_IS_ELIMINATE_STOCK_LEVEL = "isEliminateStockLevel";
     public static final String FIELD_IS_EXIST_STOCK = "isExistStock";
     public static final String FIELD_IS_CALCULATE_STOCK_LEVEL = "isCalculateStockLevel";
-    public static final String FIELD_COUNTRY_ID = "countryId";
-    public static final String FIELD_REGION_ID = "regionId";
+    public static final String FIELD_HABITAT = "habitat";
     public static final String FIELD_IMAGE_URL = "imageUrl";
 
     //
@@ -76,10 +76,8 @@ public class ProductSku extends AuditDomain {
     private Integer isExistStock;
     @ApiModelProperty(value = "上下架是否已出发库存计算")
     private Integer isCalculateStockLevel;
-    @ApiModelProperty(value = "产地，国家")
-    private Long countryId;
-    @ApiModelProperty(value = "产地，地区")
-    private Long regionId;
+    @ApiModelProperty(value = "产地")
+    private String habitat;
     @ApiModelProperty(value = "图片url")
     private String imageUrl;
 
@@ -92,6 +90,8 @@ public class ProductSku extends AuditDomain {
     @Transient
     @ApiModelProperty(value = "国家名称")
     private String countryName;
+    @Transient
+    private List<MetadataRegion> regionList;
 
     //
     // getter/setter
@@ -216,28 +216,6 @@ public class ProductSku extends AuditDomain {
 
     public void setIsCalculateStockLevel(final Integer isCalculateStockLevel) {
         this.isCalculateStockLevel = isCalculateStockLevel;
-    }
-
-    /**
-     * @return 产地，国家
-     */
-    public Long getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(final Long countryId) {
-        this.countryId = countryId;
-    }
-
-    /**
-     * @return 产地，地区
-     */
-    public Long getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(final Long regionId) {
-        this.regionId = regionId;
     }
 
 }
