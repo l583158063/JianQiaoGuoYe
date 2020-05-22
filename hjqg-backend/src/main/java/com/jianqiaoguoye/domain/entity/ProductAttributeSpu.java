@@ -32,6 +32,7 @@ public class ProductAttributeSpu extends AuditDomain {
     public static final String FIELD_PRODUCT_SPU_ID = "productSpuId";
     public static final String FIELD_ATTRIBUTE_CODE = "attributeCode";
     public static final String FIELD_ATTRIBUTE_NAME = "attributeName";
+    public static final String FIELD_ATTRIBUTE_VALUE = "attributeValue";
     public static final String FIELD_IS_ENABLED = "isEnabled";
     public static final String FIELD_START_DATE = "startDate";
     public static final String FIELD_END_DATE = "endDate";

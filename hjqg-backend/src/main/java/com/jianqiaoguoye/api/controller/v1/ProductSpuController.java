@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.jianqiaoguoye.app.service.ProductSpuService;
 import com.jianqiaoguoye.config.SwaggerTags;
 import com.jianqiaoguoye.domain.entity.ProductSpu;
+import com.jianqiaoguoye.domain.repository.ProductAttributeSpuRepository;
 import com.jianqiaoguoye.domain.repository.ProductSpuRepository;
 import io.choerodon.core.domain.Page;
 import io.choerodon.core.iam.ResourceLevel;
@@ -50,6 +51,8 @@ public class ProductSpuController extends BaseController {
     private ProductSpuRepository productSpuRepository;
     @Autowired
     private ProductSpuService productSpuService;
+    @Autowired
+    private ProductAttributeSpuRepository productAttributeSpuRepository;
 
     @ApiOperation(value = "商品spu列表")
     @Permission(level = ResourceLevel.SITE)

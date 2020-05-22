@@ -1,5 +1,6 @@
 package com.jianqiaoguoye.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.choerodon.mybatis.annotation.ModifyAudit;
 import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
@@ -8,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hzero.boot.platform.lov.annotation.LovValue;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -106,8 +108,12 @@ public class ProductSpu extends AuditDomain {
     @LovValue(lovCode = "JIANQIAO.PRODUCT_SHELF_STATUS")
     private String shelfStatus;
     @ApiModelProperty(value = "上架日期")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime onlineDate;
     @ApiModelProperty(value = "下架日期")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime offlineDate;
     @ApiModelProperty(value = "商品描述，支持长文本")
     private String description;
