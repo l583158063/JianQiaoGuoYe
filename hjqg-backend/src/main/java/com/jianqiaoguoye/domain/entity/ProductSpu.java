@@ -52,6 +52,24 @@ public class ProductSpu extends AuditDomain {
     // 业务方法(按public protected private顺序排列)
     // ------------------------------------------------------------------------------
 
+    /**
+     * 设置价格区间
+     */
+    public void setupPriceRange() {
+        if (null == maxPrice && null == minPrice) {
+            priceRange = "-";
+        } else {
+            if (null == maxPrice) {
+                throw new IllegalArgumentException("The field maxPrice must be not null!");
+            }
+            if (0 != maxPrice.compareTo(minPrice)) {
+                priceRange = minPrice + "-" + maxPrice;
+            } else {
+                priceRange = maxPrice.toString();
+            }
+        }
+    }
+
     //
     // 数据库字段
     // ------------------------------------------------------------------------------
@@ -117,185 +135,16 @@ public class ProductSpu extends AuditDomain {
     private String categoryCode;
     @Transient
     private String categoryName;
+    @Transient
+    private BigDecimal maxPrice;
+    @Transient
+    private BigDecimal minPrice;
+    @Transient
+    private String priceRange;
 
     //
     // getter/setter
     // ------------------------------------------------------------------------------
 
-    /**
-     * @return 表ID，主键，供其他表做外键
-     */
-    public Long getProductSpuId() {
-        return productSpuId;
-    }
-
-    public void setProductSpuId(final Long productSpuId) {
-        this.productSpuId = productSpuId;
-    }
-
-    /**
-     * @return 商品编码
-     */
-    public String getProductSpuCode() {
-        return productSpuCode;
-    }
-
-    public void setProductSpuCode(final String productSpuCode) {
-        this.productSpuCode = productSpuCode;
-    }
-
-    /**
-     * @return 商品类型
-     */
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(final Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    /**
-     * @return 标题
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(final String title) {
-        this.title = title;
-    }
-
-    /**
-     * @return 发布状态，值集:O2PCM.POST_STATUS
-     */
-    public String getPostStatusCode() {
-        return postStatusCode;
-    }
-
-    public void setPostStatusCode(final String postStatusCode) {
-        this.postStatusCode = postStatusCode;
-    }
-
-    /**
-     * @return 税率
-     */
-    public BigDecimal getTaxRate() {
-        return taxRate;
-    }
-
-    public void setTaxRate(final BigDecimal taxRate) {
-        this.taxRate = taxRate;
-    }
-
-    /**
-     * @return 排序权重
-     */
-    public Long getOrderSeq() {
-        return orderSeq;
-    }
-
-    public void setOrderSeq(final Long orderSeq) {
-        this.orderSeq = orderSeq;
-    }
-
-    /**
-     * @return 是否支持快递配送
-     */
-    public Integer getIsEnableExpressed() {
-        return isEnableExpressed;
-    }
-
-    public void setIsEnableExpressed(final Integer isEnableExpressed) {
-        this.isEnableExpressed = isEnableExpressed;
-    }
-
-    /**
-     * @return 是否支持自提
-     */
-    public Integer getIsEnablePickedUp() {
-        return isEnablePickedUp;
-    }
-
-    public void setIsEnablePickedUp(final Integer isEnablePickedUp) {
-        this.isEnablePickedUp = isEnablePickedUp;
-    }
-
-    /**
-     * @return 上下架状态，值集 O2PCM.SHELF_STATUS
-     */
-    public String getShelfStatus() {
-        return shelfStatus;
-    }
-
-    public void setShelfStatus(final String shelfStatus) {
-        this.shelfStatus = shelfStatus;
-    }
-
-    /**
-     * @return 商品描述，支持长文本
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
-    /**
-     * @return 销量
-     */
-    public BigDecimal getSalesVolume() {
-        return salesVolume;
-    }
-
-    public void setSalesVolume(final BigDecimal salesVolume) {
-        this.salesVolume = salesVolume;
-    }
-
-    /**
-     * @return 推荐语
-     */
-    public String getRecommendation() {
-        return recommendation;
-    }
-
-    public void setRecommendation(final String recommendation) {
-        this.recommendation = recommendation;
-    }
-
-    /**
-     * @return 关键字
-     */
-    public String getKeyWords() {
-        return keyWords;
-    }
-
-    public void setKeyWords(final String keyWords) {
-        this.keyWords = keyWords;
-    }
-
-    /**
-     * @return 是否停止销售
-     */
-    public Integer getIsStopSelling() {
-        return isStopSelling;
-    }
-
-    public void setIsStopSelling(final Integer isStopSelling) {
-        this.isStopSelling = isStopSelling;
-    }
-
-    /**
-     * @return 买家评分
-     */
-    public BigDecimal getCustomerGrade() {
-        return customerGrade;
-    }
-
-    public void setCustomerGrade(final BigDecimal customerGrade) {
-        this.customerGrade = customerGrade;
-    }
 
 }

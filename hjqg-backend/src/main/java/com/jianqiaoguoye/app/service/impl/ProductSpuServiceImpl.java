@@ -25,7 +25,9 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     @Override
     public List<ProductSpu> list(ProductSpu productSpu) {
         productSpu = (Objects.isNull(productSpu)) ? new ProductSpu() : productSpu;
-        return productSpuRepository.list(productSpu);
+        List<ProductSpu> productSpuList = productSpuRepository.list(productSpu);
+        productSpuList.forEach(ProductSpu::setupPriceRange);
+        return productSpuList;
     }
 
     @Override

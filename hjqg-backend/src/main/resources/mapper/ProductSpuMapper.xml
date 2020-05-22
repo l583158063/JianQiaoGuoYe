@@ -28,6 +28,8 @@
         <result column="key_words" property="keyWords" jdbcType="VARCHAR"/>
         <result column="is_stop_selling" property="isStopSelling" jdbcType="DECIMAL"/>
         <result column="customer_grade" property="customerGrade" jdbcType="DECIMAL"/>
+        <result column="max_price" property="maxPrice" jdbcType="DECIMAL"/>
+        <result column="min_price" property="minPrice" jdbcType="DECIMAL"/>
     </resultMap>
 
     <select id="list" resultMap="BaseResultMap">
@@ -56,10 +58,13 @@
         spu.is_stop_selling,
         spu.online_date,
         spu.offline_date,
-        spu.customer_grade
+        spu.customer_grade,
+        MAX(sku.price) AS max_price,
+        MIN(sku.price) AS min_price
         FROM product_spu spu
         INNER JOIN product_category pc
         ON spu.category_id = pc.category_id
+        LEFT JOIN product_sku sku ON sku.product_spu_id = spu.product_spu_id
         <where>
             1 = 1
             <if test="productSpu.productSpuId != null">
@@ -79,5 +84,6 @@
                 AND spu.title LIKE #{titleLike}
             </if>
         </where>
+        GROUP BY spu.product_spu_id
     </select>
 </mapper>
