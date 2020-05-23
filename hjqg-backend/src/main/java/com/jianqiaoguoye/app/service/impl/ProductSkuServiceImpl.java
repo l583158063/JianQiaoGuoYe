@@ -54,7 +54,7 @@ public class ProductSkuServiceImpl implements ProductSkuService {
             log.error("文件上传出错: ", e);
             return null;
         }
-
+        responseUrl = responseUrl.replace("localhost", "dev.hzero.org");
         productSku.setImageUrl(responseUrl);
         productSkuRepository.updateByPrimaryKeySelective(productSku);
 
