@@ -1,6 +1,7 @@
 package com.jianqiaoguoye.app.service;
 
 import com.jianqiaoguoye.domain.entity.ProductSku;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,4 +19,13 @@ public interface ProductSkuService {
      * @return 查询结果列表
      */
     List<ProductSku> list(ProductSku productSku);
+
+    /**
+     * 上传商品图片
+     *
+     * @param image        图片
+     * @param productSkuId skuId
+     * @return url
+     */
+    String uploadImage(MultipartFile image, Long productSkuId);
 }

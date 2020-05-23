@@ -18,5 +18,12 @@ public interface StringConstant {
             String OFF = "OFF";
             String PENDING = "PENDING";
         }
+
+        /**
+         * 图片相关
+         */
+        interface ImageFile {
+            String BUCKET = "product-sku-images";
+        }
     }
 }
