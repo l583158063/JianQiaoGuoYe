@@ -21,7 +21,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Override
-    public List list(Order order) {
+    public List<Order> list(Order order) {
         order = (Objects.isNull(order)) ? new Order() : order;
         return orderRepository.list(order);
     }

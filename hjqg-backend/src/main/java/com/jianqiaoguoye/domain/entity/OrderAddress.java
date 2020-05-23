@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 订单地址表
@@ -40,6 +41,15 @@ public class OrderAddress extends AuditDomain {
     //
     // 业务方法(按public protected private顺序排列)
     // ------------------------------------------------------------------------------
+
+
+    /**
+     * @return 组合地址
+     */
+    public String getAddressCombine() {
+        addressCombine = region + city + district + streetName;
+        return addressCombine;
+    }
 
     //
     // 数据库字段
@@ -72,6 +82,9 @@ public class OrderAddress extends AuditDomain {
     //
     // 非数据库字段
     // ------------------------------------------------------------------------------
+
+    @Transient
+    private String addressCombine;
 
     //
     // getter/setter

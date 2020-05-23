@@ -1,5 +1,6 @@
 package com.jianqiaoguoye.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.choerodon.mybatis.annotation.ModifyAudit;
 import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
@@ -7,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,7 +17,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -78,15 +80,17 @@ public class Order extends AuditDomain {
     @ApiModelProperty(value = "订单编号")
     @NotBlank
     private String orderCode;
-    @ApiModelProperty(value = "订单状态,值集O2OF.ORDER_STATUS")
+    @ApiModelProperty(value = "订单状态,值集JIANQIAO.ORDER_STATUS")
     private String orderStatusCode;
     @ApiModelProperty(value = "买家备注")
     private String buyerRemarks;
     @ApiModelProperty(value = "卖家备注")
     private String sellerRemarks;
     @ApiModelProperty(value = "付款时间")
-    private Date paidTime;
-    @ApiModelProperty(value = "是否已付款")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime paidTime;
+    @ApiModelProperty(value = "是否付款")
     @NotNull
     private Integer isPaid;
     @ApiModelProperty(value = "实付金额,精度2")
@@ -129,7 +133,9 @@ public class Order extends AuditDomain {
     @NotNull
     private Integer isDelete;
     @ApiModelProperty(value = "快递配送时间")
-    private Date deliveryTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime deliveryTime;
     @ApiModelProperty(value = "快递单号")
     private String deliveryNumber;
     @ApiModelProperty(value = "承运商")
@@ -146,9 +152,17 @@ public class Order extends AuditDomain {
     @ApiModelProperty(value = "订单行列表", hidden = true)
     @Transient
     private List<OrderEntry> orderEntryList;
-    @ApiModelProperty(value = "订单地址", hidden = true)
+    @ApiModelProperty(value = "收货地址", hidden = true)
     @Transient
     private OrderAddress orderAddress;
+
+    public String getAddressCombine() {
+        if (null != orderAddress) {
+            return orderAddress.getAddressCombine();
+        } else {
+            return null;
+        }
+    }
 
     //
     // getter/setter

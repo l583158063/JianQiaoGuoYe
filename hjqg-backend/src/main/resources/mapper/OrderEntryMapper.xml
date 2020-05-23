@@ -48,6 +48,7 @@
         oe.is_returned,
         oe.cost_price,
         oe.is_discount_price,
+        oe.status_code,
         sku.title
         FROM order_entry oe
         INNER JOIN product_sku sku
@@ -90,12 +91,15 @@
         oe.is_returned,
         oe.cost_price,
         oe.is_discount_price,
-        sku.title
+        oe.status_code,
+        sku.title,
+        sku.product_sku_code
         FROM order_entry oe
         INNER JOIN product_sku sku
         ON oe.product_sku_id = sku.product_sku_id
         <where>
             oe.order_id = #{orderId}
         </where>
+        ORDER BY oe.entry_number
     </select>
 </mapper>

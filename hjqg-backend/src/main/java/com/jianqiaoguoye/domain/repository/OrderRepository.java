@@ -18,5 +18,5 @@ public interface OrderRepository extends BaseRepository<Order> {
      * @param order 查询条件
      * @return 查询结果列表
      */
-    List list(Order order);
+    List<Order> list(Order order);
 }

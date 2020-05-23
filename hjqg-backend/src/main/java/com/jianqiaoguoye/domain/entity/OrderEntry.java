@@ -76,13 +76,13 @@ public class OrderEntry extends AuditDomain {
     private BigDecimal adjustAmount;
     @ApiModelProperty(value = "行优惠金额")
     private BigDecimal discountAmount;
-    @ApiModelProperty(value = "SKU平台商品ID，关联表product_sku")
+    @ApiModelProperty(value = "商品skuId，关联表product_sku")
     @NotNull
     private Long productSkuId;
     @ApiModelProperty(value = "是否赠品")
     @NotNull
     private Integer isGift;
-    @ApiModelProperty(value = "顾客实际支付金额")
+    @ApiModelProperty(value = "会员实际支付金额")
     private BigDecimal actualPaidAmount;
     @ApiModelProperty(value = "退货单行id，关联return_order_entry.return_order_entry_id")
     private Long returnOrderEntryId;
@@ -105,7 +105,11 @@ public class OrderEntry extends AuditDomain {
     // ------------------------------------------------------------------------------
 
     @Transient
+    @ApiModelProperty(value = "商品sku名称")
     private String title;
+    @Transient
+    @ApiModelProperty(value = "商品sku编码")
+    private String productSkuCode;
 
     //
     // getter/setter

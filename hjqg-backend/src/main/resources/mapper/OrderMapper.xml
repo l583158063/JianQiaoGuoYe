@@ -103,11 +103,20 @@
             <if test="order.orderId != null">
                 AND od.order_id = #{order.orderId}
             </if>
+            <if test="order.orderCode != null and order.orderCode != ''">
+                AND od.order_code = #{order.orderCode}
+            </if>
             <if test="order.customerId != null">
                 AND od.customer_id = #{order.customerId}
             </if>
             <if test="order.returnOrderId != null">
                 AND od.return_order_id = #{order.returnOrderId}
+            </if>
+            <if test="order.isPaid != null">
+                AND od.is_paid = #{order.isPaid}
+            </if>
+            <if test="order.isDeliveryDispatch != null">
+                AND od.is_delivery_dispatch = #{order.isDeliveryDispatch}
             </if>
         </where>
     </select>
