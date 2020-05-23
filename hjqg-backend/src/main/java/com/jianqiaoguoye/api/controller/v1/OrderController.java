@@ -1,10 +1,12 @@
 package com.jianqiaoguoye.api.controller.v1;
 
+import com.jianqiaoguoye.app.service.OrderService;
 import com.jianqiaoguoye.config.SwaggerTags;
 import com.jianqiaoguoye.domain.entity.Order;
 import com.jianqiaoguoye.domain.repository.OrderRepository;
 import io.choerodon.core.domain.Page;
 import io.choerodon.core.iam.ResourceLevel;
+import io.choerodon.mybatis.pagehelper.PageHelper;
 import io.choerodon.mybatis.pagehelper.annotation.SortDefault;
 import io.choerodon.mybatis.pagehelper.domain.PageRequest;
 import io.choerodon.mybatis.pagehelper.domain.Sort;
@@ -38,13 +40,15 @@ public class OrderController extends BaseController {
 
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderService orderService;
 
     @ApiOperation(value = "订单头列表")
     @Permission(level = ResourceLevel.SITE)
     @GetMapping
     public ResponseEntity<?> list(Order order, @ApiIgnore @SortDefault(value = Order.FIELD_ORDER_ID,
             direction = Sort.Direction.DESC) PageRequest pageRequest) {
-        Page<Order> list = orderRepository.pageAndSort(pageRequest, order);
+        Page<Order> list = PageHelper.doPageAndSort(pageRequest, () -> orderService.list(order));
         return Results.success(list);
     }
 

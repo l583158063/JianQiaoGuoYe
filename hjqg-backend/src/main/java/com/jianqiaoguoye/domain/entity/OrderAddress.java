@@ -57,7 +57,7 @@ public class OrderAddress extends AuditDomain {
     @ApiModelProperty(value = "省")
     private String region;
     @ApiModelProperty(value = "市")
-    private String cityId;
+    private String city;
     @ApiModelProperty(value = "区")
     private String district;
     @ApiModelProperty(value = "街道,门牌号")
@@ -68,8 +68,6 @@ public class OrderAddress extends AuditDomain {
     private String postcode;
     @ApiModelProperty(value = "联系人")
     private String contact;
-    @ApiModelProperty(value = "手机号")
-    private String mobilePhone;
 
     //
     // 非数据库字段
@@ -132,17 +130,6 @@ public class OrderAddress extends AuditDomain {
 
     public void setContact(final String contact) {
         this.contact = contact;
-    }
-
-    /**
-     * @return 手机号
-     */
-    public String getMobilePhone() {
-        return mobilePhone;
-    }
-
-    public void setMobilePhone(final String mobilePhone) {
-        this.mobilePhone = mobilePhone;
     }
 
 }

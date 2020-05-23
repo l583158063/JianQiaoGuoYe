@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jianqiaoguoye.infra.mapper.OrderMapper">
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.Order">
         <result column="order_id" property="orderId" jdbcType="DECIMAL"/>
         <result column="order_code" property="orderCode" jdbcType="VARCHAR"/>
-        <result column="order_type_code" property="orderTypeCode" jdbcType="VARCHAR"/>
         <result column="order_status_code" property="orderStatusCode" jdbcType="VARCHAR"/>
-        <result column="order_from_code" property="orderFromCode" jdbcType="VARCHAR"/>
         <result column="buyer_remarks" property="buyerRemarks" jdbcType="VARCHAR"/>
         <result column="seller_remarks" property="sellerRemarks" jdbcType="VARCHAR"/>
         <result column="paid_time" property="paidTime" jdbcType="DATE"/>
@@ -29,7 +27,6 @@
         <result column="is_commented" property="isCommented" jdbcType="DECIMAL"/>
         <result column="invoice_status_code" property="invoiceStatusCode" jdbcType="VARCHAR"/>
         <result column="is_point_accumulate" property="isPointAccumulate" jdbcType="DECIMAL"/>
-        <result column="order_temp_code" property="orderTempCode" jdbcType="VARCHAR"/>
         <result column="is_manual_recording" property="isManualRecording" jdbcType="DECIMAL"/>
         <result column="customer_id" property="customerId" jdbcType="DECIMAL"/>
         <result column="is_major_customer" property="isMajorCustomer" jdbcType="DECIMAL"/>
@@ -38,5 +35,80 @@
         <result column="delivery_time" property="deliveryTime" jdbcType="DATE"/>
         <result column="delivery_number" property="deliveryNumber" jdbcType="VARCHAR"/>
         <result column="is_delivery_dispatch" property="isDeliveryDispatch" jdbcType="DECIMAL"/>
+        <association property="orderAddress" javaType="com.jianqiaoguoye.domain.entity.OrderAddress">
+            <result column="order_address_id" property="orderAddressId" jdbcType="DECIMAL"/>
+            <result column="country" property="country" jdbcType="VARCHAR"/>
+            <result column="region" property="region" jdbcType="VARCHAR"/>
+            <result column="city" property="city" jdbcType="VARCHAR"/>
+            <result column="district" property="district" jdbcType="VARCHAR"/>
+            <result column="street_name" property="streetName" jdbcType="VARCHAR"/>
+            <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+            <result column="postcode" property="postcode" jdbcType="VARCHAR"/>
+            <result column="contact" property="contact" jdbcType="VARCHAR"/>
+        </association>
+        <collection property="orderEntryList" javaType="java.util.List"
+                    ofType="com.jianqiaoguoye.domain.entity.OrderEntry" column="order_id"
+                    select="com.jianqiaoguoye.infra.mapper.OrderEntryMapper.listByOrderId"/>
     </resultMap>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT
+        od.order_id,
+        od.order_code,
+        od.order_status_code,
+        od.buyer_remarks,
+        od.seller_remarks,
+        od.paid_time,
+        od.is_paid,
+        od.paid_amount,
+        od.discount_amount,
+        od.delivery_cost,
+        od.address_id,
+        od.delivery_type_code,
+        od.total_amount,
+        od.is_manual_approved,
+        od.process_message,
+        od.object_version_number,
+        od.creation_date,
+        od.created_by,
+        od.last_updated_by,
+        od.last_update_date,
+        od.return_order_id,
+        od.is_commented,
+        od.is_commented,
+        od.invoice_status_code,
+        od.is_point_accumulate,
+        od.is_manual_recording,
+        od.customer_id,
+        od.is_major_customer,
+        od.remarks,
+        od.is_delete,
+        od.delivery_time,
+        od.delivery_number,
+        od.is_delivery_dispatch,
+        oa.order_address_id,
+        oa.country,
+        oa.region,
+        oa.city,
+        oa.district,
+        oa.street_name,
+        oa.phone_number,
+        oa.postcode,
+        oa.contact
+        FROM `order` od
+        INNER JOIN order_address oa
+        ON od.address_id = oa.order_address_id
+        <where>
+            1 = 1
+            <if test="order.orderId != null">
+                AND od.order_id = #{order.orderId}
+            </if>
+            <if test="order.customerId != null">
+                AND od.customer_id = #{order.customerId}
+            </if>
+            <if test="order.returnOrderId != null">
+                AND od.return_order_id = #{order.returnOrderId}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -1,7 +1,14 @@
 package com.jianqiaoguoye.app.service.impl;
 
 import com.jianqiaoguoye.app.service.OrderService;
+import com.jianqiaoguoye.domain.entity.Order;
+import com.jianqiaoguoye.domain.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+
 /**
  * 订单头应用服务默认实现
  *
@@ -10,4 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Override
+    public List list(Order order) {
+        order = (Objects.isNull(order)) ? new Order() : order;
+        return orderRepository.list(order);
+    }
 }

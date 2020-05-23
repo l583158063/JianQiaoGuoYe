@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jianqiaoguoye.infra.mapper.OrderEntryMapper">
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.OrderEntry">
         <result column="order_entry_id" property="orderEntryId" jdbcType="DECIMAL"/>
         <result column="order_id" property="orderId" jdbcType="DECIMAL"/>
@@ -17,7 +17,6 @@
         <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
         <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
         <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
-        <result column="retail_amount" property="retailAmount" jdbcType="DECIMAL"/>
         <result column="actual_paid_amount" property="actualPaidAmount" jdbcType="DECIMAL"/>
         <result column="return_order_entry_id" property="returnOrderEntryId" jdbcType="DECIMAL"/>
         <result column="is_returned" property="isReturned" jdbcType="DECIMAL"/>
@@ -25,5 +24,78 @@
         <result column="status_code" property="statusCode" jdbcType="VARCHAR"/>
         <result column="is_discount_price" property="isDiscountPrice" jdbcType="DECIMAL"/>
         <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
     </resultMap>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT
+        oe.order_entry_id,
+        oe.order_id,
+        oe.entry_number,
+        oe.quantity,
+        oe.unit_price,
+        oe.adjust_amount,
+        oe.discount_amount,
+        oe.product_sku_id,
+        oe.is_gift,
+        oe.object_version_number,
+        oe.creation_date,
+        oe.created_by,
+        oe.last_updated_by,
+        oe.last_update_date,
+        oe.actual_paid_amount,
+        oe.return_order_entry_id,
+        oe.is_returned,
+        oe.cost_price,
+        oe.is_discount_price,
+        sku.title
+        FROM order_entry oe
+        INNER JOIN product_sku sku
+        ON oe.product_sku_id = sku.product_sku_id
+        <where>
+            1 = 1
+            <if test="orderEntry.productSkuId != null">
+                AND oe.product_sku_id = #{orderEntry.productSkuId}
+            </if>
+            <if test="orderEntry.orderId != null">
+                AND oe.order_id = #{orderEntry.orderId}
+            </if>
+            <if test="orderEntry.isReturned != null">
+                AND oe.is_returned = #{orderEntry.isReturned}
+            </if>
+            <if test="orderEntry.statusCode != null and orderEntry.statusCode != ''">
+                AND oe.status_code = #{orderEntry.statusCode}
+            </if>
+        </where>
+
+    </select>
+    <select id="listByOrderId" resultMap="BaseResultMap">
+        SELECT
+        oe.order_entry_id,
+        oe.order_id,
+        oe.entry_number,
+        oe.quantity,
+        oe.unit_price,
+        oe.adjust_amount,
+        oe.discount_amount,
+        oe.product_sku_id,
+        oe.is_gift,
+        oe.object_version_number,
+        oe.creation_date,
+        oe.created_by,
+        oe.last_updated_by,
+        oe.last_update_date,
+        oe.actual_paid_amount,
+        oe.return_order_entry_id,
+        oe.is_returned,
+        oe.cost_price,
+        oe.is_discount_price,
+        sku.title
+        FROM order_entry oe
+        INNER JOIN product_sku sku
+        ON oe.product_sku_id = sku.product_sku_id
+        <where>
+            oe.order_id = #{orderId}
+        </where>
+    </select>
 </mapper>

@@ -5,10 +5,13 @@ import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -18,6 +21,8 @@ import java.math.BigDecimal;
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:28
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @ApiModel("订单行")
 @VersionAudit
 @ModifyAudit
@@ -77,8 +82,6 @@ public class OrderEntry extends AuditDomain {
     @ApiModelProperty(value = "是否赠品")
     @NotNull
     private Integer isGift;
-    @ApiModelProperty(value = "销售金额")
-    private BigDecimal retailAmount;
     @ApiModelProperty(value = "顾客实际支付金额")
     private BigDecimal actualPaidAmount;
     @ApiModelProperty(value = "退货单行id，关联return_order_entry.return_order_entry_id")
@@ -101,195 +104,11 @@ public class OrderEntry extends AuditDomain {
     // 非数据库字段
     // ------------------------------------------------------------------------------
 
+    @Transient
+    private String title;
+
     //
     // getter/setter
     // ------------------------------------------------------------------------------
-
-    /**
-     * @return 表ID，主键，供其他表做外键
-     */
-    public Long getOrderEntryId() {
-        return orderEntryId;
-    }
-
-    public void setOrderEntryId(final Long orderEntryId) {
-        this.orderEntryId = orderEntryId;
-    }
-
-    /**
-     * @return 订单ID，关联order.order_id
-     */
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(final Long orderId) {
-        this.orderId = orderId;
-    }
-
-    /**
-     * @return 订单行序号
-     */
-    public Long getEntryNumber() {
-        return entryNumber;
-    }
-
-    public void setEntryNumber(final Long entryNumber) {
-        this.entryNumber = entryNumber;
-    }
-
-    /**
-     * @return 商品数量
-     */
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(final Long quantity) {
-        this.quantity = quantity;
-    }
-
-    /**
-     * @return 商品单价
-     */
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(final BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    /**
-     * @return 卖家手工调整行总金额
-     */
-    public BigDecimal getAdjustAmount() {
-        return adjustAmount;
-    }
-
-    public void setAdjustAmount(final BigDecimal adjustAmount) {
-        this.adjustAmount = adjustAmount;
-    }
-
-    /**
-     * @return 行优惠金额
-     */
-    public BigDecimal getDiscountAmount() {
-        return discountAmount;
-    }
-
-    public void setDiscountAmount(final BigDecimal discountAmount) {
-        this.discountAmount = discountAmount;
-    }
-
-    /**
-     * @return SKU平台商品ID，关联表product_sku
-     */
-    public Long getProductSkuId() {
-        return productSkuId;
-    }
-
-    public void setProductSkuId(final Long productSkuId) {
-        this.productSkuId = productSkuId;
-    }
-
-    /**
-     * @return 是否赠品
-     */
-    public Integer getIsGift() {
-        return isGift;
-    }
-
-    public void setIsGift(final Integer isGift) {
-        this.isGift = isGift;
-    }
-
-    /**
-     * @return 销售金额
-     */
-    public BigDecimal getRetailAmount() {
-        return retailAmount;
-    }
-
-    public void setRetailAmount(final BigDecimal retailAmount) {
-        this.retailAmount = retailAmount;
-    }
-
-    /**
-     * @return 顾客实际支付金额
-     */
-    public BigDecimal getActualPaidAmount() {
-        return actualPaidAmount;
-    }
-
-    public void setActualPaidAmount(final BigDecimal actualPaidAmount) {
-        this.actualPaidAmount = actualPaidAmount;
-    }
-
-    /**
-     * @return 退货单行id，关联return_order_entry.return_order_entry_id
-     */
-    public Long getReturnOrderEntryId() {
-        return returnOrderEntryId;
-    }
-
-    public void setReturnOrderEntryId(final Long returnOrderEntryId) {
-        this.returnOrderEntryId = returnOrderEntryId;
-    }
-
-    /**
-     * @return 是否退货
-     */
-    public Integer getIsReturned() {
-        return isReturned;
-    }
-
-    public void setIsReturned(final Integer isReturned) {
-        this.isReturned = isReturned;
-    }
-
-    /**
-     * @return 成本价
-     */
-    public BigDecimal getCostPrice() {
-        return costPrice;
-    }
-
-    public void setCostPrice(final BigDecimal costPrice) {
-        this.costPrice = costPrice;
-    }
-
-    /**
-     * @return 订单行状态, 值集O2OF.ORDER_ENTRY_STATUS
-     */
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(final String statusCode) {
-        this.statusCode = statusCode;
-    }
-
-    /**
-     * @return 是否折扣价
-     */
-    public Integer getIsDiscountPrice() {
-        return isDiscountPrice;
-    }
-
-    public void setIsDiscountPrice(final Integer isDiscountPrice) {
-        this.isDiscountPrice = isDiscountPrice;
-    }
-
-    /**
-     * @return 备注
-     */
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(final String remarks) {
-        this.remarks = remarks;
-    }
 
 }
