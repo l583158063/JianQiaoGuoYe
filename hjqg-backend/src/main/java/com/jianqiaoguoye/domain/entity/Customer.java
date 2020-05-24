@@ -5,6 +5,8 @@ import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,7 +20,9 @@ import java.util.Date;
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:21
  */
-@ApiModel("当用户注册成功会将对应信息写入，当用户个人信息处修改个人信息后保存后写入")
+@EqualsAndHashCode(callSuper = true)
+@Data
+@ApiModel("会员")
 @VersionAudit
 @ModifyAudit
 @Table(name = "customer")
@@ -72,7 +76,7 @@ public class Customer extends AuditDomain {
     private String remark;
     @ApiModelProperty(value = "邮件地址")
     private String email;
-    @ApiModelProperty(value = "性别")
+    @ApiModelProperty(value = "性别，值集：HPFM.GENDER")
     private String genderCode;
     @ApiModelProperty(value = "生日")
     private Date birthDate;

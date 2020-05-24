@@ -46,7 +46,7 @@ public class OrderAddress extends AuditDomain {
     /**
      * @return 组合地址
      */
-    public String getAddressCombine() {
+    public String combineAddress() {
         addressCombine = region + city + district + streetName;
         return addressCombine;
     }

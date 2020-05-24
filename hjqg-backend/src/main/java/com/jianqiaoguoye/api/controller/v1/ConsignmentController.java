@@ -1,10 +1,12 @@
 package com.jianqiaoguoye.api.controller.v1;
 
+import com.jianqiaoguoye.app.service.ConsignmentService;
 import com.jianqiaoguoye.config.SwaggerTags;
 import com.jianqiaoguoye.domain.entity.Consignment;
 import com.jianqiaoguoye.domain.repository.ConsignmentRepository;
 import io.choerodon.core.domain.Page;
 import io.choerodon.core.iam.ResourceLevel;
+import io.choerodon.mybatis.pagehelper.PageHelper;
 import io.choerodon.mybatis.pagehelper.annotation.SortDefault;
 import io.choerodon.mybatis.pagehelper.domain.PageRequest;
 import io.choerodon.mybatis.pagehelper.domain.Sort;
@@ -38,13 +40,15 @@ public class ConsignmentController extends BaseController {
 
     @Autowired
     private ConsignmentRepository consignmentRepository;
+    @Autowired
+    private ConsignmentService consignmentService;
 
     @ApiOperation(value = "配货单列表")
     @Permission(level = ResourceLevel.SITE)
     @GetMapping
     public ResponseEntity<?> list(Consignment consignment, @ApiIgnore @SortDefault(value = Consignment.FIELD_CONSIGNMENT_ID,
             direction = Sort.Direction.DESC) PageRequest pageRequest) {
-        Page<Consignment> list = consignmentRepository.pageAndSort(pageRequest, consignment);
+        Page<Consignment> list = PageHelper.doPageAndSort(pageRequest, () -> consignmentService.list(consignment));
         return Results.success(list);
     }
 

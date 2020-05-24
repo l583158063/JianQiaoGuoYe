@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jianqiaoguoye.infra.mapper.ConsignmentEntryMapper">
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.ConsignmentEntry">
         <result column="consignment_entry_id" property="consignmentEntryId" jdbcType="DECIMAL"/>
         <result column="entry_number" property="entryNumber" jdbcType="DECIMAL"/>
@@ -13,5 +13,32 @@
         <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
         <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
         <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="quantity" property="quantity" jdbcType="DECIMAL"/>
+        <result column="product_sku_code" property="productSkuCode" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
     </resultMap>
+    <select id="listByConsignmentId" resultMap="BaseResultMap">
+        SELECT
+        ce.consignment_entry_id,
+        ce.entry_number,
+        ce.consignment_id,
+        ce.order_entry_id,
+        ce.remarks,
+        ce.object_version_number,
+        ce.creation_date,
+        ce.created_by,
+        ce.last_updated_by,
+        ce.last_update_date,
+        oe.quantity,
+        sku.product_sku_code,
+        sku.title
+        FROM consignment_entry ce
+        INNER JOIN order_entry oe
+        ON ce.order_entry_id = oe.order_entry_id
+        INNER JOIN product_sku sku
+        ON oe.product_sku_id = sku.product_sku_id
+        <where>
+            ce.consignment_id = #{consignmentId}
+        </where>
+    </select>
 </mapper>

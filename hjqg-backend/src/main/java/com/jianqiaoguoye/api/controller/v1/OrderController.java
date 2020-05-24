@@ -13,6 +13,7 @@ import io.choerodon.mybatis.pagehelper.domain.Sort;
 import io.choerodon.swagger.annotation.Permission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.hzero.core.base.BaseController;
 import org.hzero.core.util.Results;
 import org.hzero.mybatis.helper.SecurityTokenHelper;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -84,6 +86,17 @@ public class OrderController extends BaseController {
         SecurityTokenHelper.validToken(order);
         orderRepository.deleteByPrimaryKey(order);
         return Results.success();
+    }
+
+    @ApiOperation(value = "确认订单并生成配货单")
+    @Permission(level = ResourceLevel.SITE)
+    @PostMapping("/confirm-order")
+    public ResponseEntity<?> confirmOrder(@RequestParam Long orderId) {
+        String consignmentCode = orderService.confirmOrder(orderId);
+        if (StringUtils.isBlank(consignmentCode)) {
+            return Results.error("生成配货单失败");
+        }
+        return Results.success(consignmentCode);
     }
 
 }

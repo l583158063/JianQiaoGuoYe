@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jianqiaoguoye.infra.mapper.ConsignmentMapper">
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.Consignment">
         <result column="consignment_id" property="consignmentId" jdbcType="DECIMAL"/>
         <result column="order_id" property="orderId" jdbcType="DECIMAL"/>
         <result column="consignment_code" property="consignmentCode" jdbcType="VARCHAR"/>
-        <result column="consignment_type" property="consignmentType" jdbcType="VARCHAR"/>
+        <result column="order_code" property="orderCode" jdbcType="VARCHAR"/>
         <result column="delivery_type_code" property="deliveryTypeCode" jdbcType="VARCHAR"/>
         <result column="consignment_status_code" property="consignmentStatusCode" jdbcType="VARCHAR"/>
         <result column="approved_date" property="approvedDate" jdbcType="DATE"/>
@@ -15,6 +15,7 @@
         <result column="consigner" property="consigner" jdbcType="VARCHAR"/>
         <result column="delivery_date" property="deliveryDate" jdbcType="DATE"/>
         <result column="delivery_number" property="deliveryNumber" jdbcType="VARCHAR"/>
+        <result column="delivery_carrier" property="deliveryCarrier" jdbcType="VARCHAR"/>
         <result column="carrier_id" property="carrierId" jdbcType="DECIMAL"/>
         <result column="delivery_cost" property="deliveryCost" jdbcType="DECIMAL"/>
         <result column="abnormal_reason_code" property="abnormalReasonCode" jdbcType="VARCHAR"/>
@@ -30,5 +31,54 @@
         <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
         <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
         <result column="is_sms_send" property="isSmsSend" jdbcType="DECIMAL"/>
+        <collection property="consignmentEntryList" ofType="com.jianqiaoguoye.domain.entity.ConsignmentEntry"
+                    column="consignment_id" javaType="java.util.List"
+                    select="com.jianqiaoguoye.infra.mapper.ConsignmentEntryMapper.listByConsignmentId"/>
     </resultMap>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT
+        csm.consignment_id,
+        csm.order_id,
+        csm.consignment_code,
+        csm.delivery_type_code,
+        csm.consignment_status_code,
+        csm.approved_date,
+        csm.is_manual_approved,
+        csm.consigner,
+        csm.delivery_cost,
+        csm.delivery_date,
+        csm.delivery_number,
+        csm.delivery_carrier,
+        csm.remarks,
+        csm.object_version_number,
+        csm.creation_date,
+        csm.created_by,
+        csm.last_updated_by,
+        csm.last_update_date,
+        od.order_code
+
+        FROM consignment csm
+        INNER JOIN jq_order od
+        ON od.order_id = csm.order_id
+        <where>
+            1 = 1
+            <if test="consignment.orderId != null">
+                AND csm.order_id = #{consignment.orderId}
+            </if>
+            <if test="consignment.consignmentCode != null and consignment.consignmentCode != ''">
+                AND csm.consignment_code = #{consignment.consignmentCode}
+            </if>
+            <if test="consignment.orderCode != null and consignment.orderCode != ''">
+                AND od.order_code = #{consignment.orderCode}
+            </if>
+            <if test="consignment.consignmentStatusCode != null and consignment.consignmentStatusCode != ''">
+                AND csm.consignment_status_code = #{consignment.consignmentStatusCode}
+            </if>
+            <if test="consignment.consigner != null and consignment.consigner != ''">
+                <bind name="consignerLike" value="'%' + consignment.consigner + '%'"/>
+                AND csm.consigner = #{consignerLike}
+            </if>
+        </where>
+    </select>
 </mapper>

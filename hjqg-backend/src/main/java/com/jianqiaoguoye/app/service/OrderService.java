@@ -17,5 +17,13 @@ public interface OrderService {
      * @param order 查询条件
      * @return 查询结果列表
      */
-    List list(Order order);
+    List<Order> list(Order order);
+
+    /**
+     * 确认订单并生成配货单
+     *
+     * @param orderId 订单ID
+     * @return 配货单号
+     */
+    String confirmOrder(Long orderId);
 }

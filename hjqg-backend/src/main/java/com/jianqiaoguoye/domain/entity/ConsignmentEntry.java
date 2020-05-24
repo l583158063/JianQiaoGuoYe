@@ -5,10 +5,13 @@ import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -16,6 +19,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:21
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @ApiModel("配货单行")
 @VersionAudit
 @ModifyAudit
@@ -56,6 +61,14 @@ public class ConsignmentEntry extends AuditDomain {
     //
     // 非数据库字段
     // ------------------------------------------------------------------------------
+
+
+    @Transient
+    private String productSkuCode;
+    @Transient
+    private String title;
+    @Transient
+    private Long quantity;
 
     //
     // getter/setter

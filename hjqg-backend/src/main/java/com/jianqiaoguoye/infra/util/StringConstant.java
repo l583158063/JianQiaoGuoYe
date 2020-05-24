@@ -52,4 +52,24 @@ public interface StringConstant {
             String REFUNDING = "REFUNDING";
         }
     }
+
+    /**
+     * 配货单模块
+     */
+    interface Consignment {
+
+        /**
+         * 配货单状态
+         */
+        interface ConsignmentStatus {
+            // 待审核
+            String WAITING_APPROVE = "WAITING_APPROVE";
+            // 配货中
+            String CONSIGNING = "CONSIGNING";
+            // 待发货
+            String WAITING_DELIVERY = "WAITING_DELIVERY";
+            // 已发货
+            String DELIVERED = "DELIVERED";
+        }
+    }
 }

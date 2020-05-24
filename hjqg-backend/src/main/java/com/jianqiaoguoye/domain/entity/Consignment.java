@@ -1,24 +1,32 @@
 package com.jianqiaoguoye.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.choerodon.mybatis.annotation.ModifyAudit;
 import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 配货单
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:21
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @ApiModel("配货单")
 @VersionAudit
 @ModifyAudit
@@ -37,6 +45,7 @@ public class Consignment extends AuditDomain {
     public static final String FIELD_CONSIGNER = "consigner";
     public static final String FIELD_DELIVERY_DATE = "deliveryDate";
     public static final String FIELD_DELIVERY_NUMBER = "deliveryNumber";
+    public static final String FIELD_DELIVERY_CARRIER = "deliveryCarrier";
     public static final String FIELD_CARRIER_ID = "carrierId";
     public static final String FIELD_DELIVERY_COST = "deliveryCost";
     public static final String FIELD_ABNORMAL_REASON_CODE = "abnormalReasonCode";
@@ -67,27 +76,31 @@ public class Consignment extends AuditDomain {
     @ApiModelProperty(value = "配货单号")
     @NotBlank
     private String consignmentCode;
-    @ApiModelProperty(value = "配货单类型,值集O2OF.CONSIGNMENT_TYPE")
-    private String consignmentType;
     @ApiModelProperty(value = "配送方式,值集o2of.DELIVERY_TYPE")
     private String deliveryTypeCode;
     @ApiModelProperty(value = "配货单状态,值集o2of.CONSIGNMENT_STATUS")
     private String consignmentStatusCode;
     @ApiModelProperty(value = "审核日期")
-    private Date approvedDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime approvedDate;
     @ApiModelProperty(value = "审核人ID")
     private Long approverId;
-    @ApiModelProperty(value = "是否手工审核过")
+    @ApiModelProperty(value = "是否已手工审核")
     @NotNull
     private Integer isManualApproved;
     @ApiModelProperty(value = "配货人")
     private String consigner;
     @ApiModelProperty(value = "发货日期")
-    private Date deliveryDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime deliveryDate;
     @ApiModelProperty(value = "物流单号")
     private String deliveryNumber;
     @ApiModelProperty(value = "承运商,关联metadata_carrier.carrier_id")
     private Long carrierId;
+    @ApiModelProperty(value = "承运商")
+    private String deliveryCarrier;
     @ApiModelProperty(value = "运费")
     private BigDecimal deliveryCost;
     @ApiModelProperty(value = "异常原因,值集o2of.ABNORMAL_REASON")
@@ -112,6 +125,13 @@ public class Consignment extends AuditDomain {
     //
     // 非数据库字段
     // ------------------------------------------------------------------------------
+
+    @Transient
+    private String combineAddress;
+    @Transient
+    private List<ConsignmentEntry> consignmentEntryList;
+    @Transient
+    private String orderCode;
 
     //
     // getter/setter
@@ -151,17 +171,6 @@ public class Consignment extends AuditDomain {
     }
 
     /**
-     * @return 配货单类型, 值集O2OF.CONSIGNMENT_TYPE
-     */
-    public String getConsignmentType() {
-        return consignmentType;
-    }
-
-    public void setConsignmentType(final String consignmentType) {
-        this.consignmentType = consignmentType;
-    }
-
-    /**
      * @return 配送方式, 值集o2of.DELIVERY_TYPE
      */
     public String getDeliveryTypeCode() {
@@ -186,11 +195,11 @@ public class Consignment extends AuditDomain {
     /**
      * @return 审核日期
      */
-    public Date getApprovedDate() {
+    public LocalDateTime getApprovedDate() {
         return approvedDate;
     }
 
-    public void setApprovedDate(final Date approvedDate) {
+    public void setApprovedDate(final LocalDateTime approvedDate) {
         this.approvedDate = approvedDate;
     }
 
@@ -230,11 +239,11 @@ public class Consignment extends AuditDomain {
     /**
      * @return 发货日期
      */
-    public Date getDeliveryDate() {
+    public LocalDateTime getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(final Date deliveryDate) {
+    public void setDeliveryDate(final LocalDateTime deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 

@@ -23,7 +23,7 @@ public class OrderRepositoryImpl extends BaseRepositoryImpl<Order> implements Or
     @Override
     public List<Order> list(Order order) {
         List<Order> orderList = orderMapper.list(order);
-        orderList.forEach(Order::getAddressCombine);
+        orderList.forEach(Order::getOrderAddress);
         return orderList;
     }
 }

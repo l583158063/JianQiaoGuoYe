@@ -23,7 +23,6 @@
         <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
         <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
         <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
-        <result column="return_order_id" property="returnOrderId" jdbcType="DECIMAL"/>
         <result column="is_commented" property="isCommented" jdbcType="DECIMAL"/>
         <result column="invoice_status_code" property="invoiceStatusCode" jdbcType="VARCHAR"/>
         <result column="is_point_accumulate" property="isPointAccumulate" jdbcType="DECIMAL"/>
@@ -35,6 +34,8 @@
         <result column="delivery_time" property="deliveryTime" jdbcType="DATE"/>
         <result column="delivery_number" property="deliveryNumber" jdbcType="VARCHAR"/>
         <result column="is_delivery_dispatch" property="isDeliveryDispatch" jdbcType="DECIMAL"/>
+        <result column="consignment_code" property="consignmentCode" jdbcType="VARCHAR"/>
+        <result column="refund_order_code" property="refundOrderCode" jdbcType="VARCHAR"/>
         <association property="orderAddress" javaType="com.jianqiaoguoye.domain.entity.OrderAddress">
             <result column="order_address_id" property="orderAddressId" jdbcType="DECIMAL"/>
             <result column="country" property="country" jdbcType="VARCHAR"/>
@@ -73,7 +74,6 @@
         od.created_by,
         od.last_updated_by,
         od.last_update_date,
-        od.return_order_id,
         od.is_commented,
         od.is_commented,
         od.invoice_status_code,
@@ -94,10 +94,16 @@
         oa.street_name,
         oa.phone_number,
         oa.postcode,
-        oa.contact
-        FROM `order` od
+        oa.contact,
+        cs.consignment_code,
+        ro.refund_order_code
+        FROM jq_order od
         INNER JOIN order_address oa
         ON od.address_id = oa.order_address_id
+        LEFT JOIN consignment cs
+        ON od.order_id = cs.order_id
+        LEFT JOIN refund_order ro
+        ON od.order_id = ro.order_id
         <where>
             1 = 1
             <if test="order.orderId != null">
@@ -108,9 +114,6 @@
             </if>
             <if test="order.customerId != null">
                 AND od.customer_id = #{order.customerId}
-            </if>
-            <if test="order.returnOrderId != null">
-                AND od.return_order_id = #{order.returnOrderId}
             </if>
             <if test="order.isPaid != null">
                 AND od.is_paid = #{order.isPaid}

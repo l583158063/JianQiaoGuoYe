@@ -5,6 +5,8 @@ import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,6 +21,8 @@ import java.util.Date;
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:28
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @ApiModel("退款单")
 @VersionAudit
 @ModifyAudit

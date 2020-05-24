@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ import java.util.List;
 @ApiModel("订单头")
 @VersionAudit
 @ModifyAudit
-@Table(name = "order")
+@Table(name = "jq_order")
 public class Order extends AuditDomain {
 
     public static final String FIELD_ORDER_ID = "orderId";
@@ -50,7 +51,6 @@ public class Order extends AuditDomain {
     public static final String FIELD_TOTAL_AMOUNT = "totalAmount";
     public static final String FIELD_IS_MANUAL_APPROVED = "isManualApproved";
     public static final String FIELD_PROCESS_MESSAGE = "processMessage";
-    public static final String FIELD_RETURN_ORDER_ID = "returnOrderId";
     public static final String FIELD_IS_COMMENTED = "isCommented";
     public static final String FIELD_INVOICE_STATUS_CODE = "invoiceStatusCode";
     public static final String FIELD_IS_POINT_ACCUMULATE = "isPointAccumulate";
@@ -67,6 +67,26 @@ public class Order extends AuditDomain {
     //
     // 业务方法(按public protected private顺序排列)
     // ------------------------------------------------------------------------------
+
+
+    public String getAddressCombine() {
+        if (null != orderAddress) {
+            return orderAddress.combineAddress();
+        } else {
+            return null;
+        }
+    }
+
+    public void calculateTotalAmount() {
+        if (CollectionUtils.isNotEmpty(orderEntryList)) {
+            BigDecimal sum = BigDecimal.ZERO;
+            for (OrderEntry entry : orderEntryList) {
+                BigDecimal entryAmount = entry.getUnitPrice().multiply(new BigDecimal(entry.getQuantity()));
+                sum = sum.add(entryAmount);
+            }
+            this.setTotalAmount(sum);
+        }
+    }
 
     //
     // 数据库字段
@@ -110,8 +130,6 @@ public class Order extends AuditDomain {
     private Integer isManualApproved;
     @ApiModelProperty(value = "日志")
     private String processMessage;
-    @ApiModelProperty(value = "退货单id，关联return_order.return_order_id")
-    private Long returnOrderId;
     @ApiModelProperty(value = "是否已评价")
     @NotNull
     private Integer isCommented;
@@ -155,14 +173,12 @@ public class Order extends AuditDomain {
     @ApiModelProperty(value = "收货地址", hidden = true)
     @Transient
     private OrderAddress orderAddress;
-
-    public String getAddressCombine() {
-        if (null != orderAddress) {
-            return orderAddress.getAddressCombine();
-        } else {
-            return null;
-        }
-    }
+    @ApiModelProperty(value = "配货单编号", hidden = true)
+    @Transient
+    private String consignmentCode;
+    @ApiModelProperty(value = "退款单编号", hidden = true)
+    @Transient
+    private String refundOrderCode;
 
     //
     // getter/setter
