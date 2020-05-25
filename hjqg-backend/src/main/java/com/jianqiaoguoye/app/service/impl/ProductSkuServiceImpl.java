@@ -8,6 +8,7 @@ import io.choerodon.core.oauth.DetailsHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.hzero.boot.file.FileClient;
+import org.hzero.core.base.BaseConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -46,10 +47,12 @@ public class ProductSkuServiceImpl implements ProductSkuService {
 
         Long organizationId = DetailsHelper.getUserDetails().getTenantId();
 
+        String fileSuffix = originalFilename.substring(originalFilename.lastIndexOf(BaseConstants.Symbol.POINT));
+
         String responseUrl;
         try {
             responseUrl = fileClient.uploadFile(organizationId, StringConstant.Product.ImageFile.BUCKET,
-                    productSkuId.toString(), fileName(productSku), image.getBytes());
+                    productSkuId.toString(), fileName(productSku, fileSuffix), image.getBytes());
         } catch (IOException e) {
             log.error("文件上传出错: ", e);
             return null;
@@ -61,7 +64,7 @@ public class ProductSkuServiceImpl implements ProductSkuService {
         return responseUrl;
     }
 
-    private String fileName(ProductSku productSku) {
-        return productSku.getProductSkuId() + "-" + productSku.getProductSkuCode();
+    private String fileName(ProductSku productSku, String fileSuffix) {
+        return productSku.getProductSkuId() + "-" + productSku.getProductSkuCode() + "." + fileSuffix;
     }
 }

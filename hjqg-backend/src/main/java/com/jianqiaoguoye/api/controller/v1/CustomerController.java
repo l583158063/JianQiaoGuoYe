@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
- * 当用户注册成功会将对应信息写入，当用户个人信息处修改个人信息后保存后写入 管理 API
+ * 会员 管理 API
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:21
  */
@@ -39,7 +39,7 @@ public class CustomerController extends BaseController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @ApiOperation(value = "当用户注册成功会将对应信息写入，当用户个人信息处修改个人信息后保存后写入列表")
+    @ApiOperation(value = "会员列表")
     @Permission(level = ResourceLevel.SITE)
     @GetMapping
     public ResponseEntity<?> list(Customer customer, @ApiIgnore @SortDefault(value = Customer.FIELD_CUSTOMER_ID,
@@ -48,7 +48,7 @@ public class CustomerController extends BaseController {
         return Results.success(list);
     }
 
-    @ApiOperation(value = "当用户注册成功会将对应信息写入，当用户个人信息处修改个人信息后保存后写入明细")
+    @ApiOperation(value = "会员明细")
     @Permission(level = ResourceLevel.SITE)
     @GetMapping("/{customerId}")
     public ResponseEntity<?> detail(@PathVariable Long customerId) {
@@ -56,7 +56,7 @@ public class CustomerController extends BaseController {
         return Results.success(customer);
     }
 
-    @ApiOperation(value = "创建当用户注册成功会将对应信息写入，当用户个人信息处修改个人信息后保存后写入")
+    @ApiOperation(value = "创建会员")
     @Permission(level = ResourceLevel.SITE)
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Customer customer) {
@@ -64,7 +64,7 @@ public class CustomerController extends BaseController {
         return Results.success(customer);
     }
 
-    @ApiOperation(value = "修改当用户注册成功会将对应信息写入，当用户个人信息处修改个人信息后保存后写入")
+    @ApiOperation(value = "修改会员")
     @Permission(level = ResourceLevel.SITE)
     @PutMapping
     public ResponseEntity<?> update(@RequestBody Customer customer) {
@@ -73,7 +73,7 @@ public class CustomerController extends BaseController {
         return Results.success(customer);
     }
 
-    @ApiOperation(value = "删除当用户注册成功会将对应信息写入，当用户个人信息处修改个人信息后保存后写入")
+    @ApiOperation(value = "删除会员")
     @Permission(level = ResourceLevel.SITE)
     @DeleteMapping
     public ResponseEntity<?> remove(@RequestBody Customer customer) {
