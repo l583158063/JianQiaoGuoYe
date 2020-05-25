@@ -14,8 +14,12 @@ public interface StringConstant {
          * 上下架状态
          */
         interface ShelfStatus {
+            String LOV_CODE = "JIANQIAO.PRODUCT_SHELF_STATUS";
+            // 已上架
             String ON = "ON";
+            // 已下架
             String OFF = "OFF";
+            // 待上架
             String PENDING = "PENDING";
         }
 
@@ -36,6 +40,7 @@ public interface StringConstant {
          * 订单状态
          */
         interface OrderStatus {
+            String LOV_CODE = "JIANQIAO.ORDER_STATUS";
             // 待支付
             String WAITING_PAY = "WAITING_PAY";
             // 待确认
@@ -51,6 +56,17 @@ public interface StringConstant {
             // 退款中
             String REFUNDING = "REFUNDING";
         }
+
+        /**
+         * 配送方式
+         */
+        interface DeliveryType {
+            String LOV_CODE = "JIANQIAO.DELIVERY_TYPE";
+            // 快递
+            String DELIVERY = "DELIVERY";
+            // 自提
+            String PICKUP = "PICKUP";
+        }
     }
 
     /**
@@ -62,6 +78,7 @@ public interface StringConstant {
          * 配货单状态
          */
         interface ConsignmentStatus {
+            String LOV_CODE = "JIANQIAO.CONSIGNMENT_STATUS";
             // 待审核
             String WAITING_APPROVE = "WAITING_APPROVE";
             // 配货中
@@ -70,6 +87,19 @@ public interface StringConstant {
             String WAITING_DELIVERY = "WAITING_DELIVERY";
             // 已发货
             String DELIVERED = "DELIVERED";
+        }
+
+        /**
+         * 承运商
+         */
+        interface DeliveryCarrier {
+            String LOV_CODE = "JIANQIAO.DELIVERY_CARRIER";
+            String SHUN_FENG = "SHUN_FENG";
+            String ZHONG_TONG = "ZHONG_TONG";
+            String YUAN_TONG = "YUAN_TONG";
+            String YUN_DA = "YUN_DA";
+            String SHEN_TONG = "SHEN_TONG";
+            String ZHAI_JI_SONG = "ZHAI_JI_SONG";
         }
     }
 }

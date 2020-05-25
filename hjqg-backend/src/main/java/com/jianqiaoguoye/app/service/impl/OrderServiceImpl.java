@@ -17,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -55,8 +53,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setOrderStatusCode(StringConstant.Order.OrderStatus.CONSIGNING);
         order.setIsManualApproved(BaseConstants.Digital.ONE);
-        order.setProcessMessage(order.getProcessMessage() + "\n" +
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " 订单已确认");
+        order.appendProcessMsg("订单已确认");
 
         orderRepository.updateByPrimaryKeySelective(order);
 
@@ -85,6 +82,7 @@ public class OrderServiceImpl implements OrderService {
         consignment.setConsignmentCode(order.getOrderCode());
         consignment.setDeliveryTypeCode(order.getDeliveryTypeCode());
         consignment.setConsignmentStatusCode(StringConstant.Consignment.ConsignmentStatus.WAITING_APPROVE);
+        consignment.setRemarks(order.getRemarks());
     }
 
     private void installConsignmentEntry(Consignment consignment, Order order) {

@@ -13,6 +13,8 @@ import io.choerodon.mybatis.pagehelper.domain.Sort;
 import io.choerodon.swagger.annotation.Permission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.hzero.core.base.BaseController;
 import org.hzero.core.util.Results;
 import org.hzero.mybatis.helper.SecurityTokenHelper;
@@ -33,6 +35,7 @@ import springfox.documentation.annotations.ApiIgnore;
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:21
  */
+@Slf4j
 @Api(tags = SwaggerTags.CONSIGNMENT)
 @RestController("consignmentController.v1")
 @RequestMapping("/v1/consignments")
@@ -83,6 +86,20 @@ public class ConsignmentController extends BaseController {
     public ResponseEntity<?> remove(@RequestBody Consignment consignment) {
         SecurityTokenHelper.validToken(consignment);
         consignmentRepository.deleteByPrimaryKey(consignment);
+        return Results.success();
+    }
+
+    @ApiOperation(value = "响应配货单处理")
+    @Permission(level = ResourceLevel.SITE)
+    @PostMapping("/handle-operation")
+    public ResponseEntity<?> handleOperation(@RequestBody Consignment consignment) {
+        if (log.isDebugEnabled()) {
+            log.debug("handle consignment: {}", consignment);
+        }
+        String error = consignmentService.handleOperation(consignment);
+        if (StringUtils.isNotBlank(error)) {
+            return Results.error(error);
+        }
         return Results.success();
     }
 

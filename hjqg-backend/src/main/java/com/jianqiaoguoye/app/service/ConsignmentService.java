@@ -19,4 +19,11 @@ public interface ConsignmentService {
      */
     List<Consignment> list(Consignment consignment);
 
+    /**
+     * 操作处理
+     *
+     * @param consignment 更新数据
+     * @return 错误信息，为空则处理成功
+     */
+    String handleOperation(Consignment consignment);
 }
