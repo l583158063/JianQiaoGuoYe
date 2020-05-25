@@ -15,8 +15,6 @@ import io.choerodon.swagger.annotation.Permission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.lang3.StringUtils;
 import org.hzero.core.base.BaseController;
 import org.hzero.core.util.Results;
 import org.hzero.mybatis.helper.SecurityTokenHelper;
@@ -110,14 +108,15 @@ public class ProductSkuController extends BaseController {
     @Permission(level = ResourceLevel.SITE)
     @PostMapping(value = "/image-upload")
     public ResponseEntity<?> imageUpload(@RequestParam("imageUrl") MultipartFile image,
-                                         @RequestParam("productSkuId") Long productSkuId) throws FileUploadException {
+                                         @RequestParam("productSkuId") Long productSkuId) {
         if (log.isDebugEnabled()) {
             log.debug("productSkuId === {}", productSkuId);
             log.debug("image === {}", image);
             log.debug("image.originalFilename === {}", image.getOriginalFilename());
         }
         String imageUrl = productSkuService.uploadImage(image, productSkuId);
-        return StringUtils.isBlank(imageUrl) ? Results.error() : Results.success(imageUrl);
+//        return StringUtils.isBlank(imageUrl) ? Results.error() : Results.success(imageUrl);
+        return Results.success();
     }
 
 }

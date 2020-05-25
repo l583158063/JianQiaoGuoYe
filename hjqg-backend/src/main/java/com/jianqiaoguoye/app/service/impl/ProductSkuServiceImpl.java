@@ -52,7 +52,7 @@ public class ProductSkuServiceImpl implements ProductSkuService {
         String responseUrl;
         try {
             responseUrl = fileClient.uploadFile(organizationId, StringConstant.Product.ImageFile.BUCKET,
-                    productSkuId.toString(), fileName(productSku, fileSuffix), image.getBytes());
+                    productSkuId.toString(), fileName(productSku, fileSuffix), image.getContentType(), image.getBytes());
         } catch (IOException e) {
             log.error("文件上传出错: ", e);
             return null;
@@ -65,6 +65,6 @@ public class ProductSkuServiceImpl implements ProductSkuService {
     }
 
     private String fileName(ProductSku productSku, String fileSuffix) {
-        return productSku.getProductSkuId() + "-" + productSku.getProductSkuCode() + "." + fileSuffix;
+        return productSku.getProductSkuId() + "-" + productSku.getProductSkuCode() + fileSuffix;
     }
 }
