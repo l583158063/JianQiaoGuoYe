@@ -6,6 +6,7 @@ import com.jianqiaoguoye.domain.entity.Order;
 import com.jianqiaoguoye.domain.repository.ConsignmentRepository;
 import com.jianqiaoguoye.domain.repository.OrderRepository;
 import com.jianqiaoguoye.infra.util.StringConstant;
+import io.choerodon.core.exception.CommonException;
 import io.choerodon.core.oauth.DetailsHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -59,28 +60,55 @@ public class ConsignmentServiceImpl implements ConsignmentService {
     }
 
     @Override
-    public String handleOperation(Consignment consignment) {
+    public void handleOperation(Consignment consignment) {
         if (null == consignment) {
-            return "数据为空，无法处理";
+            throw new CommonException("数据为空，无法处理");
+        }
+        if (BaseConstants.Digital.ZERO == consignment.getIsManualApproved()) {
+            throw new CommonException("请先审核配货单");
         }
         switch (consignment.getConsignmentStatusCode()) {
             // 审核
             case StringConstant.Consignment.ConsignmentStatus.CONSIGNING:
-                return handleApprove(consignment);
+                handleApprove(consignment);
+                break;
 
             // 配货完成
             case StringConstant.Consignment.ConsignmentStatus.WAITING_DELIVERY:
-                return handleConsign(consignment);
+                handleConsign(consignment);
+                break;
 
             // 发货
             case StringConstant.Consignment.ConsignmentStatus.DELIVERED:
-                return handleDelivery(consignment);
+                handleDelivery(consignment);
+                break;
             default:
-                return "非法参数: " + consignment.getConsignmentStatusCode();
+                throw new CommonException("非法参数: " + consignment.getConsignmentStatusCode());
         }
     }
 
-    private String handleApprove(Consignment consignment) {
+    @Override
+    public void handlePickup(Consignment consignment) {
+        if (StringConstant.Order.DeliveryType.PICKUP.equals(consignment.getDeliveryTypeCode())) {
+            consignment.setDeliveryDate(LocalDateTime.now());
+            consignment.setConsignmentStatusCode(StringConstant.Consignment.ConsignmentStatus.DELIVERED);
+            consignmentRepository.updateByPrimaryKeySelective(consignment);
+
+            // 修改订单状态
+            Long orderId = consignment.getOrderId();
+            Order order = orderRepository.selectByPrimaryKey(orderId);
+            Assert.isTrue(null != order, "无法匹配订单: " + orderId);
+            order.appendProcessMsg("已自提");
+            order.setOrderStatusCode(StringConstant.Order.OrderStatus.WAITING_COMMENT);
+            order.setIsDeliveryDispatch(BaseConstants.Digital.ONE);
+            order.setDeliveryTime(consignment.getDeliveryDate());
+            orderRepository.updateByPrimaryKeySelective(order);
+        } else {
+            throw new CommonException("非自提配货单");
+        }
+    }
+
+    private void handleApprove(Consignment consignment) {
         // 更新配货单数据
         consignment.setIsManualApproved(BaseConstants.Digital.ONE);
         consignment.setApprovedDate(LocalDateTime.now());
@@ -89,23 +117,19 @@ public class ConsignmentServiceImpl implements ConsignmentService {
         consignmentRepository.updateByPrimaryKeySelective(consignment);
 
         updateOrderProcessMsg(consignment, "配货单已审核");
-
-        return null;
     }
 
-    private String handleConsign(Consignment consignment) {
+    private void handleConsign(Consignment consignment) {
         if (StringUtils.isBlank(consignment.getConsigner())) {
-            return "配货人不能为空";
+            throw new CommonException("配货人不能为空");
         }
 
         consignmentRepository.updateByPrimaryKeySelective(consignment);
 
         updateOrderProcessMsg(consignment, "配货完成，准备发货");
-
-        return null;
     }
 
-    private String handleDelivery(Consignment consignment) {
+    private void handleDelivery(Consignment consignment) {
         StringBuilder errorString = new StringBuilder();
         if (null == consignment.getDeliveryCost()) {
             errorString.append(" 运费为空 ");
@@ -116,12 +140,13 @@ public class ConsignmentServiceImpl implements ConsignmentService {
         if (StringUtils.isBlank(consignment.getDeliveryNumber())) {
             errorString.append(" 快递单号为空 ");
         }
+        if (StringUtils.isNotBlank(errorString.toString())) {
+            throw new CommonException(errorString.toString());
+        }
         // 发货时间
         consignment.setDeliveryDate(LocalDateTime.now());
 
         consignmentRepository.updateByPrimaryKeySelective(consignment);
-
-        updateOrderProcessMsg(consignment, "已发货");
 
         // 修改订单状态
         Long orderId = consignment.getOrderId();
@@ -129,9 +154,12 @@ public class ConsignmentServiceImpl implements ConsignmentService {
         Assert.isTrue(null != order, "无法匹配订单: " + orderId);
         order.appendProcessMsg("已发货");
         order.setOrderStatusCode(StringConstant.Order.OrderStatus.DELIVERING);
-        orderRepository.updateOptional(order, Order.FIELD_ORDER_STATUS_CODE, Order.FIELD_PROCESS_MESSAGE);
-
-        return errorString.toString();
+        order.setIsDeliveryDispatch(BaseConstants.Digital.ONE);
+        order.setDeliveryCarrier(consignment.getDeliveryCarrier());
+        order.setDeliveryNumber(consignment.getDeliveryNumber());
+        order.setDeliveryCost(consignment.getDeliveryCost());
+        order.setDeliveryTime(consignment.getDeliveryDate());
+        orderRepository.updateByPrimaryKeySelective(order);
     }
 
     /**

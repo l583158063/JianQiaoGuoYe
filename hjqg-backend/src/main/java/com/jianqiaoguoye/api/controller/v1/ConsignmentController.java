@@ -14,7 +14,6 @@ import io.choerodon.swagger.annotation.Permission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.hzero.core.base.BaseController;
 import org.hzero.core.util.Results;
 import org.hzero.mybatis.helper.SecurityTokenHelper;
@@ -94,12 +93,21 @@ public class ConsignmentController extends BaseController {
     @PostMapping("/handle-operation")
     public ResponseEntity<?> handleOperation(@RequestBody Consignment consignment) {
         if (log.isDebugEnabled()) {
-            log.debug("handle consignment: {}", consignment);
+            log.debug("handle operation: {}", consignment);
         }
-        String error = consignmentService.handleOperation(consignment);
-        if (StringUtils.isNotBlank(error)) {
-            return Results.error(error);
+        consignmentService.handleOperation(consignment);
+        return Results.success();
+    }
+
+    @ApiOperation(value = "自提")
+    @Permission(level = ResourceLevel.SITE)
+    @PostMapping("/handle-pickup")
+    public ResponseEntity<?> handlePickup(@RequestBody Consignment consignment) {
+        if (log.isDebugEnabled()) {
+            log.debug("handle pickup: {}", consignment);
         }
+        consignmentService.handlePickup(consignment);
+
         return Results.success();
     }
 

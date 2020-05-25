@@ -23,7 +23,13 @@ public interface ConsignmentService {
      * 操作处理
      *
      * @param consignment 更新数据
-     * @return 错误信息，为空则处理成功
      */
-    String handleOperation(Consignment consignment);
+    void handleOperation(Consignment consignment);
+
+    /**
+     * 自提处理
+     *
+     * @param consignment 数据
+     */
+    void handlePickup(Consignment consignment);
 }
