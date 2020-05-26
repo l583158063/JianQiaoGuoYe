@@ -64,9 +64,6 @@ public class ConsignmentServiceImpl implements ConsignmentService {
         if (null == consignment) {
             throw new CommonException("数据为空，无法处理");
         }
-        if (BaseConstants.Digital.ZERO == consignment.getIsManualApproved()) {
-            throw new CommonException("请先审核配货单");
-        }
         switch (consignment.getConsignmentStatusCode()) {
             // 审核
             case StringConstant.Consignment.ConsignmentStatus.CONSIGNING:
