@@ -26,4 +26,5 @@ public class OrderRepositoryImpl extends BaseRepositoryImpl<Order> implements Or
         orderList.forEach(Order::getOrderAddress);
         return orderList;
     }
+
 }

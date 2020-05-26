@@ -19,4 +19,5 @@ public interface OrderRepository extends BaseRepository<Order> {
      * @return 查询结果列表
      */
     List<Order> list(Order order);
+
 }

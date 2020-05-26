@@ -1,6 +1,8 @@
 package com.jianqiaoguoye.app.service;
 
+import com.jianqiaoguoye.api.dto.OrderCreateDTO;
 import com.jianqiaoguoye.domain.entity.Order;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -26,4 +28,21 @@ public interface OrderService {
      * @return 配货单号
      */
     String confirmOrder(Long orderId);
+
+    /**
+     * 商城创建订单
+     *
+     * @param orderCreateDTO 订单数据
+     * @return 响应结果
+     */
+    ResponseEntity<?> createOrder(OrderCreateDTO orderCreateDTO);
+
+    /**
+     * 商城查询个人订单列表
+     *
+     * @param customerId 会员ID
+     * @return 订单列表
+     */
+    List<Order> queryOrderList(Long customerId);
+
 }

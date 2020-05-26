@@ -91,7 +91,7 @@ public class OrderEntry extends AuditDomain {
     private Integer isReturned;
     @ApiModelProperty(value = "成本价")
     private BigDecimal costPrice;
-    @ApiModelProperty(value = "订单行状态,值集O2OF.ORDER_ENTRY_STATUS")
+    @ApiModelProperty(value = "订单行状态,值集JIANQIAO.ORDER_ENTRY_STATUS")
     @NotBlank
     private String statusCode;
     @ApiModelProperty(value = "是否折扣价")

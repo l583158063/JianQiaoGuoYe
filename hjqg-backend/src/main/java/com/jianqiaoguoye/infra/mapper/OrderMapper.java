@@ -20,4 +20,5 @@ public interface OrderMapper extends BaseMapper<Order> {
      * @return 查询结果列表
      */
     List<Order> list(@Param("order") Order order);
+
 }

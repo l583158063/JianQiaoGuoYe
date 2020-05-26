@@ -64,6 +64,33 @@ public interface StringConstant {
         }
 
         /**
+         * 订单行状态
+         */
+        interface EntryStatus {
+            String LOV_CODE = "JIANQIAO.ORDER_ENTRY_STATUS";
+            // 待支付
+            String WAITING_PAY = "WAITING_PAY";
+            // 已支付
+            String PAID = "PAID";
+            // 退款中
+            String REFUNDING = "REFUNDING";
+            // 已退款
+            String REFUNDED = "REFUNDED";
+        }
+
+        /**
+         * 地址
+         */
+        interface Address {
+            String CHINA = "中国";
+        }
+
+        /**
+         * 编码规则
+         */
+        String ORDER_CODE = "JIANQIAO.ORDER_CODE";
+
+        /**
          * 配送方式
          */
         interface DeliveryType {
@@ -107,5 +134,13 @@ public interface StringConstant {
             String SHEN_TONG = "SHEN_TONG";
             String ZHAI_JI_SONG = "ZHAI_JI_SONG";
         }
+    }
+
+    /**
+     * 会员
+     */
+    interface Customer {
+
+        long DEFAULT_CUSTOMER_ID = 1;
     }
 }

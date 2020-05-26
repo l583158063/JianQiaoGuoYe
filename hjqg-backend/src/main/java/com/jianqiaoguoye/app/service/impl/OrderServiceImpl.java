@@ -1,22 +1,37 @@
 package com.jianqiaoguoye.app.service.impl;
 
+import com.jianqiaoguoye.api.dto.OrderCreateDTO;
+import com.jianqiaoguoye.api.dto.ProductSkuDTO;
 import com.jianqiaoguoye.app.service.OrderService;
 import com.jianqiaoguoye.domain.entity.Consignment;
 import com.jianqiaoguoye.domain.entity.ConsignmentEntry;
 import com.jianqiaoguoye.domain.entity.Order;
+import com.jianqiaoguoye.domain.entity.OrderAddress;
 import com.jianqiaoguoye.domain.entity.OrderEntry;
+import com.jianqiaoguoye.domain.entity.ProductSku;
 import com.jianqiaoguoye.domain.repository.ConsignmentEntryRepository;
 import com.jianqiaoguoye.domain.repository.ConsignmentRepository;
+import com.jianqiaoguoye.domain.repository.OrderAddressRepository;
 import com.jianqiaoguoye.domain.repository.OrderEntryRepository;
 import com.jianqiaoguoye.domain.repository.OrderRepository;
+import com.jianqiaoguoye.domain.repository.ProductSkuRepository;
 import com.jianqiaoguoye.infra.util.StringConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hzero.boot.platform.code.builder.CodeRuleBuilder;
+import org.hzero.boot.platform.code.constant.CodeConstants;
 import org.hzero.core.base.BaseConstants;
+import org.hzero.core.util.Results;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,6 +53,12 @@ public class OrderServiceImpl implements OrderService {
     private ConsignmentRepository consignmentRepository;
     @Autowired
     private ConsignmentEntryRepository consignmentEntryRepository;
+    @Autowired
+    private CodeRuleBuilder codeRuleBuilder;
+    @Autowired
+    private ProductSkuRepository productSkuRepository;
+    @Autowired
+    private OrderAddressRepository orderAddressRepository;
 
     @Override
     public List<Order> list(Order order) {
@@ -101,5 +122,96 @@ public class OrderServiceImpl implements OrderService {
 
         consignment.setConsignmentEntryList(consignmentEntryList);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<?> createOrder(OrderCreateDTO orderCreateDTO) {
+        List<ProductSkuDTO> productSkuDtoList = orderCreateDTO.getProductSkuDtoList();
+        String valid = validateStock(productSkuDtoList);
+
+        if (StringUtils.isNotBlank(valid)) {
+            return Results.invalid(valid);
+        }
+
+        // 订单地址生成（未校验）
+        OrderAddress orderAddress = orderCreateDTO.getOrderAddress();
+        orderAddress.setCustomerId(StringConstant.Customer.DEFAULT_CUSTOMER_ID);
+        orderAddress.setCountry(StringConstant.Order.Address.CHINA);
+        orderAddressRepository.insertSelective(orderAddress);
+
+        Order order = new Order();
+        // 订单编码生成规则
+        String orderCode = codeRuleBuilder.generateCode(BaseConstants.DEFAULT_TENANT_ID, StringConstant.Order.ORDER_CODE,
+                CodeConstants.CodeRuleLevelCode.GLOBAL, CodeConstants.CodeRuleLevelCode.GLOBAL, null);
+        order.setOrderCode(orderCode);
+        order.setOrderStatusCode(StringConstant.Order.OrderStatus.WAITING_CONFIRM);
+        order.setTotalAmount(calculateTotalAmount(productSkuDtoList));
+        order.appendProcessMsg("已支付");
+        order.setPaidAmount(order.getTotalAmount());
+        order.setPaidTime(LocalDateTime.now());
+        order.setIsPaid(BaseConstants.Digital.ONE);
+        order.setBuyerRemarks(orderCreateDTO.getBuyerRemarks());
+        order.setCustomerId(StringConstant.Customer.DEFAULT_CUSTOMER_ID);
+        order.setAddressId(orderAddress.getOrderAddressId());
+        orderRepository.insertSelective(order);
+
+        // 订单行
+        List<OrderEntry> orderEntryList = new ArrayList<>();
+        long entryNumber = 1;
+        for (ProductSkuDTO productSkuDTO : productSkuDtoList) {
+            OrderEntry orderEntry = new OrderEntry();
+            orderEntry.setOrderId(order.getOrderId());
+            orderEntry.setEntryNumber(entryNumber++);
+            orderEntry.setProductSkuId(productSkuDTO.getProductSkuId());
+            orderEntry.setStatusCode(StringConstant.Order.EntryStatus.PAID);
+
+            @NotNull BigDecimal price = productSkuDTO.getPrice();
+            orderEntry.setUnitPrice(price);
+
+            Long count = productSkuDTO.getCount();
+            orderEntry.setQuantity(count);
+
+            orderEntry.setActualPaidAmount(price.multiply(new BigDecimal(count)));
+
+            orderEntryList.add(orderEntry);
+        }
+        orderEntryRepository.batchInsertSelective(orderEntryList);
+
+        return Results.success(orderCode);
+    }
+
+    @Override
+    public List<Order> queryOrderList(Long customerId) {
+        Order orderSelector = new Order();
+        orderSelector.setCustomerId(customerId);
+        return orderRepository.list(orderSelector);
+    }
+
+    private BigDecimal calculateTotalAmount(List<ProductSkuDTO> productSkuDtoList) {
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        for (ProductSkuDTO product : productSkuDtoList) {
+            totalAmount = totalAmount.add(product.getPrice().multiply(new BigDecimal(product.getCount())));
+        }
+        return totalAmount;
+    }
+
+    /**
+     * 校验库存
+     *
+     * @param productSkuDtoList 请求参数
+     * @return 空串则为校验通过
+     */
+    private String validateStock(List<ProductSkuDTO> productSkuDtoList) {
+        for (ProductSkuDTO product : productSkuDtoList) {
+            ProductSku productSkuValidator = productSkuRepository.selectByPrimaryKey(product.getProductSkuId());
+            Assert.isTrue(null != productSkuValidator, "商品ID：" + product.getProductSkuId() + "不存在");
+            final long existStockLevel = productSkuValidator.getStockLevel();
+            if (existStockLevel < product.getCount()) {
+                return "商品[" + product.getTitle() + "]库存不足";
+            }
+        }
+        return null;
+    }
+
 
 }

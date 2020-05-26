@@ -1,5 +1,7 @@
 package com.jianqiaoguoye.api.controller.v1;
 
+import com.alibaba.fastjson.JSON;
+import com.jianqiaoguoye.api.dto.OrderCreateDTO;
 import com.jianqiaoguoye.app.service.OrderService;
 import com.jianqiaoguoye.config.SwaggerTags;
 import com.jianqiaoguoye.domain.entity.Order;
@@ -13,6 +15,8 @@ import io.choerodon.mybatis.pagehelper.domain.Sort;
 import io.choerodon.swagger.annotation.Permission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hzero.core.base.BaseController;
 import org.hzero.core.util.Results;
@@ -30,11 +34,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
+
 /**
  * 订单头 管理 API
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:28
  */
+@Slf4j
 @Api(tags = SwaggerTags.ORDER)
 @RestController("orderController.v1")
 @RequestMapping("/v1/orders")
@@ -97,6 +104,27 @@ public class OrderController extends BaseController {
             return Results.error("生成配货单失败");
         }
         return Results.success(consignmentCode);
+    }
+
+    @ApiOperation(value = "商城创建订单")
+    @Permission(permissionPublic = true)
+    @PostMapping("/create-order")
+    public ResponseEntity<?> createOrder(@RequestBody OrderCreateDTO orderCreateDTO) {
+        if (log.isDebugEnabled()) {
+            log.debug("productSkuDtoList: {}", JSON.toJSONString(orderCreateDTO));
+        }
+        if (null == orderCreateDTO || CollectionUtils.isEmpty(orderCreateDTO.getProductSkuDtoList())) {
+            return Results.invalid();
+        }
+        return orderService.createOrder(orderCreateDTO);
+    }
+
+    @ApiOperation(value = "查询个人订单列表")
+    @Permission(permissionPublic = true)
+    @GetMapping("/query-order-list/{customerId}")
+    public ResponseEntity<?> queryOrderList(@PathVariable Long customerId) {
+        List<Order> orderList = orderService.queryOrderList(customerId);
+        return Results.success(orderList);
     }
 
 }

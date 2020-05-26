@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 订单地址表
@@ -36,7 +37,6 @@ public class OrderAddress extends AuditDomain {
     public static final String FIELD_PHONE_NUMBER = "phoneNumber";
     public static final String FIELD_POSTCODE = "postcode";
     public static final String FIELD_CONTACT = "contact";
-    public static final String FIELD_MOBILE_PHONE = "mobilePhone";
 
     //
     // 业务方法(按public protected private顺序排列)
@@ -63,20 +63,27 @@ public class OrderAddress extends AuditDomain {
     @ApiModelProperty(value = "关联会员")
     private Long customerId;
     @ApiModelProperty(value = "国家")
+    @NotBlank
     private String country;
     @ApiModelProperty(value = "省")
+    @NotBlank
     private String region;
     @ApiModelProperty(value = "市")
+    @NotBlank
     private String city;
     @ApiModelProperty(value = "区")
+    @NotBlank
     private String district;
     @ApiModelProperty(value = "街道,门牌号")
+    @NotBlank
     private String streetName;
     @ApiModelProperty(value = "电话")
+    @NotBlank
     private String phoneNumber;
     @ApiModelProperty(value = "邮编")
     private String postcode;
     @ApiModelProperty(value = "联系人")
+    @NotBlank
     private String contact;
 
     //
