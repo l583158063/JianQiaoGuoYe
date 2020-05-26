@@ -49,6 +49,7 @@ public class ProductSpu extends AuditDomain {
     public static final String FIELD_KEY_WORDS = "keyWords";
     public static final String FIELD_IS_STOP_SELLING = "isStopSelling";
     public static final String FIELD_CUSTOMER_GRADE = "customerGrade";
+    public static final String FIELD_CUSTOMER_GRADE_MAX = "5";
 
     //
     // 业务方法(按public protected private顺序排列)

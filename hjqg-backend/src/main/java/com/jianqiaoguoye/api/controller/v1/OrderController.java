@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -125,6 +126,33 @@ public class OrderController extends BaseController {
     public ResponseEntity<?> queryOrderList(@PathVariable Long customerId) {
         List<Order> orderList = orderService.queryOrderList(customerId);
         return Results.success(orderList);
+    }
+
+    @ApiOperation(value = "确认收货")
+    @Permission(permissionPublic = true)
+    @PostMapping("/receive")
+    public ResponseEntity<?> receive(@RequestBody Order order) {
+        if (log.isDebugEnabled()) {
+            log.debug("comment order: {}", JSON.toJSONString(order));
+        }
+        if (null == order) {
+            return Results.invalid();
+        }
+        return orderService.receive(order);
+    }
+
+    @ApiOperation(value = "商城订单评价")
+    @Permission(permissionPublic = true)
+    @PostMapping("/comment-order")
+    public ResponseEntity<?> commentOrder(@RequestBody Order order, @RequestParam BigDecimal grade) {
+        if (log.isDebugEnabled()) {
+            log.debug("comment order: {}", JSON.toJSONString(order));
+            log.debug("comment grade: {}", grade);
+        }
+        if (null == order) {
+            return Results.invalid();
+        }
+        return orderService.commentOrder(order, grade);
     }
 
 }

@@ -86,4 +86,20 @@
         </where>
         GROUP BY spu.product_spu_id
     </select>
+    <select id="queryByOrderId" resultType="com.jianqiaoguoye.domain.entity.ProductSpu">
+        SELECT
+        spu.product_spu_id,
+        spu.customer_grade,
+        spu.object_version_number
+        FROM product_spu spu
+        LEFT JOIN product_sku sku
+        ON sku.product_spu_id = spu.product_spu_id
+        LEFT JOIN order_entry oe
+        ON oe.product_sku_id = sku.product_sku_id
+        <where>
+            oe.order_id = #{orderId}
+        </where>
+
+
+    </select>
 </mapper>

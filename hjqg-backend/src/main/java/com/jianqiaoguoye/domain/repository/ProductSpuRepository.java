@@ -27,4 +27,13 @@ public interface ProductSpuRepository extends BaseRepository<ProductSpu> {
      * @return 查询结果列表
      */
     List<ProductSpu> list(ProductSpu productSpu);
+
+    /**
+     * 查询订单关联的spu
+     *
+     * @param orderId 订单ID
+     * @return spuList
+     */
+    List<ProductSpu> queryByOrderId(Long orderId);
+
 }

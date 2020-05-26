@@ -4,6 +4,7 @@ import com.jianqiaoguoye.api.dto.OrderCreateDTO;
 import com.jianqiaoguoye.domain.entity.Order;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -45,4 +46,20 @@ public interface OrderService {
      */
     List<Order> queryOrderList(Long customerId);
 
+    /**
+     * 评价订单
+     *
+     * @param order 订单信息
+     * @param grade
+     * @return 响应
+     */
+    ResponseEntity<?> commentOrder(Order order, BigDecimal grade);
+
+    /**
+     * 确认收货
+     *
+     * @param order 订单信息
+     * @return 响应
+     */
+    ResponseEntity<?> receive(Order order);
 }

@@ -30,4 +30,9 @@ public class ProductSpuRepositoryImpl extends BaseRepositoryImpl<ProductSpu> imp
         return productSpuMapper.list(productSpu);
     }
 
+    @Override
+    public List<ProductSpu> queryByOrderId(Long orderId) {
+        return productSpuMapper.queryByOrderId(orderId);
+    }
+
 }

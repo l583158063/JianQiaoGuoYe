@@ -20,4 +20,12 @@ public interface ProductSpuMapper extends BaseMapper<ProductSpu> {
      * @return 查询结果列表
      */
     List<ProductSpu> list(@Param("productSpu") ProductSpu productSpu);
+
+    /**
+     * 查询订单关联的spu
+     *
+     * @param orderId 订单ID
+     * @return spuList
+     */
+    List<ProductSpu> queryByOrderId(@Param("orderId") Long orderId);
 }

@@ -1,5 +1,6 @@
 package com.jianqiaoguoye.app.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.jianqiaoguoye.api.dto.OrderCreateDTO;
 import com.jianqiaoguoye.api.dto.ProductSkuDTO;
 import com.jianqiaoguoye.app.service.OrderService;
@@ -9,12 +10,14 @@ import com.jianqiaoguoye.domain.entity.Order;
 import com.jianqiaoguoye.domain.entity.OrderAddress;
 import com.jianqiaoguoye.domain.entity.OrderEntry;
 import com.jianqiaoguoye.domain.entity.ProductSku;
+import com.jianqiaoguoye.domain.entity.ProductSpu;
 import com.jianqiaoguoye.domain.repository.ConsignmentEntryRepository;
 import com.jianqiaoguoye.domain.repository.ConsignmentRepository;
 import com.jianqiaoguoye.domain.repository.OrderAddressRepository;
 import com.jianqiaoguoye.domain.repository.OrderEntryRepository;
 import com.jianqiaoguoye.domain.repository.OrderRepository;
 import com.jianqiaoguoye.domain.repository.ProductSkuRepository;
+import com.jianqiaoguoye.domain.repository.ProductSpuRepository;
 import com.jianqiaoguoye.infra.util.StringConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -57,6 +60,8 @@ public class OrderServiceImpl implements OrderService {
     private CodeRuleBuilder codeRuleBuilder;
     @Autowired
     private ProductSkuRepository productSkuRepository;
+    @Autowired
+    private ProductSpuRepository productSpuRepository;
     @Autowired
     private OrderAddressRepository orderAddressRepository;
 
@@ -185,6 +190,46 @@ public class OrderServiceImpl implements OrderService {
         Order orderSelector = new Order();
         orderSelector.setCustomerId(customerId);
         return orderRepository.list(orderSelector);
+    }
+
+    @Override
+    public ResponseEntity<?> commentOrder(Order order1, BigDecimal grade) {
+        if (BigDecimal.ZERO.compareTo(grade) > 0 || new BigDecimal(ProductSpu.FIELD_CUSTOMER_GRADE_MAX).compareTo(grade) < 0) {
+            return Results.invalid("分数必须在0~5之间");
+        }
+        Order order = orderRepository.selectByPrimaryKey(order1);
+        Assert.isTrue(null != order, "不存在该订单：" + JSON.toJSONString(order1));
+        // 计算spu分数
+        List<ProductSpu> productSpuList = productSpuRepository.queryByOrderId(order.getOrderId());
+        Assert.isTrue(CollectionUtils.isNotEmpty(productSpuList), "数据错误");
+        for (ProductSpu spu : productSpuList) {
+            BigDecimal customerGrade = spu.getCustomerGrade();
+            BigDecimal subtract = grade.subtract(customerGrade);
+            BigDecimal multiply = subtract.multiply(new BigDecimal("0.01"));
+            BigDecimal result = customerGrade.add(multiply);
+            spu.setCustomerGrade(result);
+        }
+        productSpuRepository.batchUpdateOptional(productSpuList, ProductSpu.FIELD_CUSTOMER_GRADE);
+
+        // 更新订单状态
+        order.setOrderStatusCode(StringConstant.Order.OrderStatus.COMPLETE);
+        order.setIsCommented(BaseConstants.Digital.ONE);
+        orderRepository.updateOptional(order, Order.FIELD_ORDER_STATUS_CODE, Order.FIELD_IS_COMMENTED);
+
+        return Results.success();
+    }
+
+    @Override
+    public ResponseEntity<?> receive(Order order1) {
+        Order order = orderRepository.selectByPrimaryKey(order1);
+        Assert.isTrue(null != order, "不存在该订单：" + JSON.toJSONString(order1));
+        if (StringConstant.Order.OrderStatus.DELIVERING.equals(order.getOrderStatusCode())) {
+            order.setOrderStatusCode(StringConstant.Order.OrderStatus.WAITING_COMMENT);
+            orderRepository.updateOptional(order, Order.FIELD_ORDER_STATUS_CODE);
+            return Results.success();
+        } else {
+            return Results.invalid("订单状态不是运送中，无法接收");
+        }
     }
 
     private BigDecimal calculateTotalAmount(List<ProductSkuDTO> productSkuDtoList) {
