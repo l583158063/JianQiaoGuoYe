@@ -98,4 +98,12 @@ public class ProductCategoryController extends BaseController {
         return Results.success();
     }
 
+    @ApiOperation(value = "查询商品类型下的sku（商城）")
+    @Permission(permissionPublic = true)
+    @GetMapping("/query-category-skus")
+    public ResponseEntity<?> queryCategorySkus(ProductCategory productCategory) {
+        List<ProductCategory> productCategoryList = productCategoryRepository.queryCategorySkus(productCategory);
+        return Results.success(productCategoryList);
+    }
+
 }

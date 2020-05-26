@@ -4,6 +4,12 @@ package com.jianqiaoguoye.infra.util;
  * @author Luwx
  */
 public interface StringConstant {
+    /**
+     * 路由映射
+     */
+    interface Route {
+        String DEV_HZERO_ORG = "192.168.1.5";
+    }
 
     /**
      * 商品模块

@@ -2,6 +2,9 @@ package com.jianqiaoguoye.infra.mapper;
 
 import com.jianqiaoguoye.domain.entity.ProductAttributeSku;
 import io.choerodon.mybatis.common.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 商品SKU属性Mapper
@@ -10,4 +13,5 @@ import io.choerodon.mybatis.common.BaseMapper;
  */
 public interface ProductAttributeSkuMapper extends BaseMapper<ProductAttributeSku> {
 
+    List<ProductAttributeSku> listBySkuId(@Param("productSkuId") Long productSkuId);
 }

@@ -57,11 +57,17 @@ public class ProductSkuServiceImpl implements ProductSkuService {
             log.error("文件上传出错: ", e);
             return null;
         }
-        responseUrl = responseUrl.replace("localhost", "dev.hzero.org");
+        responseUrl = responseUrl.replace("localhost", StringConstant.Route.DEV_HZERO_ORG);
         productSku.setImageUrl(responseUrl);
         productSkuRepository.updateByPrimaryKeySelective(productSku);
 
         return responseUrl;
+    }
+
+    @Override
+    public List<ProductSku> queryForMall(ProductSku productSku) {
+        productSku = (Objects.isNull(productSku)) ? new ProductSku() : productSku;
+        return productSkuRepository.queryForMall(productSku);
     }
 
     private String fileName(ProductSku productSku, String fileSuffix) {

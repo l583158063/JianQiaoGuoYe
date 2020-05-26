@@ -26,4 +26,12 @@ public interface ProductSkuRepository extends BaseRepository<ProductSku> {
      * @param productSkuList 接收提交数据
      */
     void submit(List<ProductSku> productSkuList);
+
+    /**
+     * 列表查询（商城）
+     *
+     * @param productSku 查询条件
+     * @return 查询结果列表
+     */
+    List<ProductSku> queryForMall(ProductSku productSku);
 }

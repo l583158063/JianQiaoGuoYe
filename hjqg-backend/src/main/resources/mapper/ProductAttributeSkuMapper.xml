@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jianqiaoguoye.infra.mapper.ProductAttributeSkuMapper">
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap id="BaseResultMap" type="com.jianqiaoguoye.domain.entity.ProductAttributeSku">
         <result column="attribute_sku_id" property="attributeSkuId" jdbcType="DECIMAL"/>
         <result column="product_sku_id" property="productSkuId" jdbcType="DECIMAL"/>
         <result column="attribute_code" property="attributeCode" jdbcType="VARCHAR"/>
         <result column="attribute_name" property="attributeName" jdbcType="VARCHAR"/>
+        <result column="attribute_value" property="attributeValue" jdbcType="VARCHAR"/>
         <result column="is_enabled" property="isEnabled" jdbcType="DECIMAL"/>
         <result column="start_date" property="startDate" jdbcType="DATE"/>
         <result column="end_date" property="endDate" jdbcType="DATE"/>
@@ -18,4 +19,23 @@
         <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
         <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
     </resultMap>
+    <select id="listBySkuId" resultMap="BaseResultMap">
+        SELECT
+        attribute_sku_id,
+        product_sku_id,
+        attribute_code,
+        attribute_name,
+        attribute_value,
+        is_enabled,
+        start_date,
+        end_date,
+        order_seq,
+        remark,
+        object_version_number
+        FROM product_attribute_sku pas
+        <where>
+            pas.product_sku_id = #{productSkuId}
+            AND pas.is_enabled = 1
+        </where>
+    </select>
 </mapper>

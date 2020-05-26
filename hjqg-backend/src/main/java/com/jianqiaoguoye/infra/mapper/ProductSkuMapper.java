@@ -20,4 +20,20 @@ public interface ProductSkuMapper extends BaseMapper<ProductSku> {
      * @return 查询结果列表
      */
     List<ProductSku> list(@Param("productSku") ProductSku productSku);
+
+    /**
+     * 列表查询（商城）
+     *
+     * @param productSku 查询条件
+     * @return 查询结果列表
+     */
+    List<ProductSku> queryForMall(@Param("productSku") ProductSku productSku);
+
+    /**
+     * 根据 categoryId 查 sku
+     *
+     * @param categoryId id
+     * @return skuList
+     */
+    List<ProductSku> queryByCategoryId(@Param("categoryId") Long categoryId);
 }

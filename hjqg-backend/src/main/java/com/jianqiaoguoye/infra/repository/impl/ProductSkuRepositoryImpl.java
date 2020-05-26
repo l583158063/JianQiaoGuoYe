@@ -29,4 +29,9 @@ public class ProductSkuRepositoryImpl extends BaseRepositoryImpl<ProductSku> imp
     public void submit(List<ProductSku> productSkuList) {
         CommonRepositoryImpl.handleSubmit(this, productSkuList);
     }
+
+    @Override
+    public List<ProductSku> queryForMall(ProductSku productSku) {
+        return productSkuMapper.queryForMall(productSku);
+    }
 }

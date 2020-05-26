@@ -3,7 +3,9 @@ package com.jianqiaoguoye.api.controller.v1;
 import com.alibaba.fastjson.JSON;
 import com.jianqiaoguoye.app.service.ProductSkuService;
 import com.jianqiaoguoye.config.SwaggerTags;
+import com.jianqiaoguoye.domain.entity.ProductAttributeSku;
 import com.jianqiaoguoye.domain.entity.ProductSku;
+import com.jianqiaoguoye.domain.repository.ProductAttributeSkuRepository;
 import com.jianqiaoguoye.domain.repository.ProductSkuRepository;
 import io.choerodon.core.domain.Page;
 import io.choerodon.core.iam.ResourceLevel;
@@ -49,6 +51,8 @@ public class ProductSkuController extends BaseController {
     private ProductSkuRepository productSkuRepository;
     @Autowired
     private ProductSkuService productSkuService;
+    @Autowired
+    private ProductAttributeSkuRepository attributeSkuRepository;
 
     @ApiOperation(value = "商品sku列表")
     @Permission(level = ResourceLevel.SITE)
@@ -59,11 +63,23 @@ public class ProductSkuController extends BaseController {
         return Results.success(list);
     }
 
-    @ApiOperation(value = "商品sku明细")
-    @Permission(level = ResourceLevel.SITE)
-    @GetMapping("/{productSkuId}")
+    @ApiOperation(value = "商品sku列表（商城）")
+    @Permission(permissionPublic = true)
+    @GetMapping("/query-for-mall")
+    public ResponseEntity<?> queryForMall(ProductSku productSku) {
+        List<ProductSku> list = productSkuService.queryForMall(productSku);
+        return Results.success(list);
+    }
+
+    @ApiOperation(value = "商品sku明细（商城）")
+    @Permission(permissionPublic = true)
+    @GetMapping("/query-for-mall/{productSkuId}")
     public ResponseEntity<?> detail(@PathVariable Long productSkuId) {
         ProductSku productSku = productSkuRepository.selectByPrimaryKey(productSkuId);
+        if (null != productSku) {
+            List<ProductAttributeSku> attributeSkuList = attributeSkuRepository.select(ProductAttributeSku.FIELD_PRODUCT_SKU_ID, productSkuId);
+            productSku.setAttributeSkuList(attributeSkuList);
+        }
         return Results.success(productSku);
     }
 

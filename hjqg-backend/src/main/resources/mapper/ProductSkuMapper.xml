@@ -23,6 +23,10 @@
         <result column="is_calculate_stock_level" property="isCalculateStockLevel" jdbcType="DECIMAL"/>
         <result column="stock_level" property="stockLevel" jdbcType="DECIMAL"/>
         <result column="habitat" property="habitat" jdbcType="VARCHAR"/>
+        <result column="image_url" property="imageUrl" jdbcType="VARCHAR"/>
+        <collection property="attributeSkuList" javaType="java.util.List" column="product_sku_id"
+                    ofType="com.jianqiaoguoye.domain.entity.ProductAttributeSku"
+                    select="com.jianqiaoguoye.infra.mapper.ProductAttributeSkuMapper.listBySkuId"/>
     </resultMap>
     <select id="list" resultMap="BaseResultMap">
         SELECT
@@ -45,7 +49,8 @@
         sku.is_exist_stock,
         sku.is_calculate_stock_level,
         sku.habitat,
-        sku.stock_level
+        sku.stock_level,
+        sku.image_url
         FROM product_sku sku
         INNER JOIN product_spu spu
         ON sku.product_spu_id = spu.product_spu_id
@@ -64,6 +69,82 @@
                 <bind name="titleLike" value="'%' + productSku.title + '%'"/>
                 AND sku.title LIKE #{titleLike}
             </if>
+        </where>
+    </select>
+    <select id="queryForMall" resultMap="BaseResultMap">
+        SELECT
+        sku.product_sku_id,
+        sku.product_sku_code,
+        sku.product_spu_id,
+        sku.price,
+        sku.title,
+        spu.title AS spu_title,
+        spu.shelf_status,
+        sku.status_code,
+        sku.object_version_number,
+        sku.creation_date,
+        sku.created_by,
+        sku.last_updated_by,
+        sku.last_update_date,
+        sku.recommendation,
+        sku.is_eliminate_price,
+        sku.is_eliminate_stock_level,
+        sku.is_exist_stock,
+        sku.is_calculate_stock_level,
+        sku.habitat,
+        sku.stock_level,
+        sku.image_url
+        FROM product_sku sku
+        LEFT JOIN product_spu spu
+        ON sku.product_spu_id = spu.product_spu_id
+        <where>
+            spu.shelf_status = 'ON'
+            <if test="productSku.productSkuId != null">
+                AND sku.product_sku_id = #{productSku.productSkuId}
+            </if>
+            <if test="productSku.productSkuCode != null and productSku.productSkuCode != ''">
+                AND sku.product_sku_code = #{productSku.productSkuCode}
+            </if>
+            <if test="productSku.isExistStock != null">
+                AND sku.is_exist_stock = #{productSku.isExistStock}
+            </if>
+            <if test="productSku.title != null and productSku.title != ''">
+                <bind name="titleLike" value="'%' + productSku.title + '%'"/>
+                AND sku.title LIKE #{titleLike}
+            </if>
+        </where>
+    </select>
+    <select id="queryByCategoryId" resultMap="BaseResultMap">
+        SELECT
+        sku.product_sku_id,
+        sku.product_sku_code,
+        sku.product_spu_id,
+        sku.price,
+        sku.title,
+        spu.title AS spu_title,
+        spu.shelf_status,
+        sku.status_code,
+        sku.object_version_number,
+        sku.creation_date,
+        sku.created_by,
+        sku.last_updated_by,
+        sku.last_update_date,
+        sku.recommendation,
+        sku.is_eliminate_price,
+        sku.is_eliminate_stock_level,
+        sku.is_exist_stock,
+        sku.is_calculate_stock_level,
+        sku.habitat,
+        sku.stock_level,
+        sku.image_url
+        FROM product_sku sku
+        LEFT JOIN product_spu spu
+        ON sku.product_spu_id = spu.product_spu_id
+        LEFT JOIN product_category pc
+        ON spu.category_id = pc.category_id
+        <where>
+            spu.shelf_status = 'ON'
+            AND pc.category_id = #{categoryId}
         </where>
     </select>
 </mapper>

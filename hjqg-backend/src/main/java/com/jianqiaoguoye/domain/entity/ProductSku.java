@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 商品sku
@@ -98,5 +99,7 @@ public class ProductSku extends AuditDomain {
     private String spuTitle;
     @Transient
     private String shelfStatus;
+    @Transient
+    private List<ProductAttributeSku> attributeSkuList;
 
 }

@@ -1,26 +1,34 @@
 package com.jianqiaoguoye.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.choerodon.mybatis.annotation.ModifyAudit;
 import io.choerodon.mybatis.annotation.VersionAudit;
 import io.choerodon.mybatis.domain.AuditDomain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 商品类型
  *
  * @author weixin.lu@hand-china.com 2020-04-23 10:58:21
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @ApiModel("商品类型")
 @VersionAudit
 @ModifyAudit
 @Table(name = "product_category")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductCategory extends AuditDomain {
 
     public static final String FIELD_CATEGORY_ID = "categoryId";
@@ -60,6 +68,10 @@ public class ProductCategory extends AuditDomain {
     //
     // 非数据库字段
     // ------------------------------------------------------------------------------
+
+
+    @Transient
+    private List<ProductSku> productSkuList;
 
     //
     // getter/setter

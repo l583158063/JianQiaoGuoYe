@@ -18,4 +18,12 @@ public interface ProductCategoryRepository extends BaseRepository<ProductCategor
      * @param productCategoryList 接收提交数据
      */
     void submit(List<ProductCategory> productCategoryList);
+
+    /**
+     * 查询商品类型对应sku
+     *
+     * @param productCategory 商品类型
+     * @return sku列表
+     */
+    List<ProductCategory> queryCategorySkus(ProductCategory productCategory);
 }

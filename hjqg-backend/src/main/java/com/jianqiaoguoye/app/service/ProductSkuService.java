@@ -28,4 +28,12 @@ public interface ProductSkuService {
      * @return url
      */
     String uploadImage(MultipartFile image, Long productSkuId);
+
+    /**
+     * 商城查询所有sku
+     *
+     * @param productSku 条件
+     * @return sku列表
+     */
+    List<ProductSku> queryForMall(ProductSku productSku);
 }
