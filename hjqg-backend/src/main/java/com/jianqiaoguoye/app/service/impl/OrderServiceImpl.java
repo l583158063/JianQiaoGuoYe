@@ -138,6 +138,19 @@ public class OrderServiceImpl implements OrderService {
             return Results.invalid(valid);
         }
 
+        // 库存更新
+        List<ProductSku> productSkuList = new ArrayList<>();
+        for (ProductSkuDTO dto : productSkuDtoList) {
+            ProductSku sku = new ProductSku();
+            sku.setProductSkuId(dto.getProductSkuId());
+            Long stockLevel = dto.getStockLevel();
+            sku.setStockLevel(stockLevel);
+            sku.setIsExistStock(stockLevel > 0 ? 1 : 0);
+            sku.setObjectVersionNumber(dto.getObjectVersionNumber());
+            productSkuList.add(sku);
+        }
+        productSkuRepository.batchUpdateByPrimaryKeySelective(productSkuList);
+
         // 订单地址生成（未校验）
         OrderAddress orderAddress = orderCreateDTO.getOrderAddress();
         orderAddress.setCustomerId(StringConstant.Customer.DEFAULT_CUSTOMER_ID);
@@ -251,9 +264,12 @@ public class OrderServiceImpl implements OrderService {
             ProductSku productSkuValidator = productSkuRepository.selectByPrimaryKey(product.getProductSkuId());
             Assert.isTrue(null != productSkuValidator, "商品ID：" + product.getProductSkuId() + "不存在");
             final long existStockLevel = productSkuValidator.getStockLevel();
-            if (existStockLevel < product.getCount()) {
+            Long count = product.getCount();
+            if (existStockLevel < count) {
                 return "商品[" + product.getTitle() + "]库存不足";
             }
+            product.setStockLevel(existStockLevel - count);
+            product.setObjectVersionNumber(productSkuValidator.getObjectVersionNumber());
         }
         return null;
     }
