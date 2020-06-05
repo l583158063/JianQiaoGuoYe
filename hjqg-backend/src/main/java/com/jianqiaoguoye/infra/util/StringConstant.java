@@ -61,6 +61,10 @@ public interface StringConstant {
             String COMPLETE = "COMPLETE";
             // 退款中
             String REFUNDING = "REFUNDING";
+            // 已退款
+            String REFUNDED = "REFUNDED";
+            // 已拒绝
+            String REJECTED = "REJECTED";
         }
 
         /**
@@ -133,6 +137,29 @@ public interface StringConstant {
             String YUN_DA = "YUN_DA";
             String SHEN_TONG = "SHEN_TONG";
             String ZHAI_JI_SONG = "ZHAI_JI_SONG";
+        }
+    }
+
+    /**
+     * 退款单模块
+     */
+    interface RefundOrder {
+
+        /**
+         * 退款单状态
+         */
+        interface RefundOrderStatus {
+            String LOV_CODE = "JIANQIAO.REFUND_ORDER_STATUS";
+            // 待审核
+            String WAITING_APPROVE = "WAITING_APPROVE";
+            // 已审核
+            String APPROVED = "APPROVED";
+            // 退款中
+            String REFUNDING = "REFUNDING";
+            // 已退款
+            String REFUNDED = "REFUNDED";
+            // 已拒绝
+            String REJECTED = "REJECTED";
         }
     }
 
